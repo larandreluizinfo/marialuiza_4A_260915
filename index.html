@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MiniCraft Mundo Animal - Maria Luiza 4A</title>
+<title>MiniCraft Realista - Livia 4A</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
 body{background:#0b1020;color:#fff;overflow:hidden}
@@ -44,39 +44,30 @@ kbd{background:#000;border:1px solid #555;border-radius:4px;padding:0 5px;font-s
 <div id="game-area">
 <canvas id="cv"></canvas>
 <div id="hud">
-<span class="pill">ÔøÅ´©Å MiniCraft Mundo Animal</span>
-<span class="pill" id="modePill">´┐¢ survival: SOBREVIV├èNCIA</span>
-<span class="pill" id="clock">ÔÿÇ´©Å Dia 1 - 12:00</span>
-<span class="pill" id="hearts">ÔØñ´©ÅÔØñ´©ÅÔØñ´©ÅÔØñ´©ÅÔØñ´©Å ­ƒìù­ƒìù­ƒìù­ƒìù­ƒìù</span>
-<button class="pill" id="creativeBtn">­ƒÄ¿ CRIATIVO: OFF (C)</button>
-<button class="pill" id="invBtn">­ƒÄÆ Invent├írio (E)</button>
+<span class="pill">⛏️ MiniCraft Mundo Animal</span>
+<span class="pill" id="modePill">� survival: SOBREVIVÊNCIA</span>
+<span class="pill" id="clock">☀️ Dia 1 - 12:00</span>
+<span class="pill" id="hearts">❤️❤️❤️❤️❤️ 🍗🍗🍗🍗🍗</span>
+<button class="pill" id="creativeBtn">🎨 CRIATIVO: OFF (C)</button>
+<button class="pill" id="invBtn">🎒 Inventário (E)</button>
 </div>
-<button class="pill" id="menuBtn">Ôÿ░</button>
+<button class="pill" id="menuBtn">☰</button>
 <div id="msg"></div>
 <div id="hotbar"></div>
 </div>
 <div id="sidebar">
-<h1>­ƒîì MiniCraft Mundo Animal</h1>
-<div class="card"><b>­ƒæº Feito por Maria Luiza - 4A</b><br><span style="font-size:13px">Explore, minere, construa e encontre TODOS os animais do mundo!</span></div>
+<h1>🌍 MiniCraft Mundo Animal</h1>
+<div class="card"><b>👧 Feito por Livia - 4A</b><br><span style="font-size:13px">Explore, minere, construa e encontre TODOS os animais do mundo!</span></div>
+
 <div class="card">
-<h2>­ƒªå Skin de Pato</h2>
-<div class="row" id="skinRow">
-<button class="btn alt" id="skinSteve">­ƒºæ Steve</button>
-<button class="btn" id="skinDuck">­ƒªå Pato</button>
-<button class="btn warn" id="skinWitch">­ƒºÖ Bruxo</button>
-</div>
-<div style="font-size:13px;margin-top:6px">Skin atual: <b id="skinName">­ƒºæ Steve</b><br>Tecla <kbd>T</kbd> troca rapidinho!</div>
-</div>
-<div class="card">
-<h2>­ƒÄ« Como jogar</h2>
+<h2>🎮 Como jogar</h2>
 <div id="help">
 <b>Mover:</b> <kbd>WASD</kbd> ou <kbd>Setas</kbd><br>
 <b>Quebrar:</b> clique esquerdo<br>
 <b>Colocar:</b> clique direito<br>
 <b>Trocar bloco:</b> <kbd>1-9</kbd> ou clique na hotbar<br>
-<b>Criativo:</b> <kbd>C</kbd> (voar com <kbd>Espa├ºo</kbd>/voo + vida infinita)<br>
-<b>Skin pato:</b> <kbd>T</kbd> ou bot├úo ­ƒªå<br>
-<b>Invent├írio criativo:</b> <kbd>E</kbd><br>
+<b>Criativo:</b> <kbd>C</kbd> (voar com <kbd>Espaço</kbd>/voo + vida infinita)<br>
+<b>Inventário criativo:</b> <kbd>E</kbd><br>
 <b>Domar/interagir:</b> clique no animal<br>
 <b>Pet:</b> clique p/ adotar, clique de novo p/ sentar/seguir <kbd>P</kbd> chama pets<br>
 <b>No celular:</b> toque para andar/quebrar
@@ -84,41 +75,41 @@ kbd{background:#000;border:1px solid #555;border-radius:4px;padding:0 5px;font-s
 </div>
 <div class="card">
 <div class="row">
-<button class="btn" id="btnDay">ÔÿÇ´©Å Dia</button>
-<button class="btn alt" id="btnNight">­ƒîÖ Noite</button>
-<button class="btn warn" id="btnHeal">­ƒÆû Curar</button>
-<button class="btn red" id="btnClear">­ƒùæ´©Å Limpar</button>
+<button class="btn" id="btnDay">☀️ Dia</button>
+<button class="btn alt" id="btnNight">🌙 Noite</button>
+<button class="btn warn" id="btnHeal">💖 Curar</button>
+<button class="btn red" id="btnClear">🗑️ Limpar</button>
 </div>
 <div class="row" style="margin-top:6px">
-<button class="btn alt" id="btnSave">­ƒÆ¥ Salvar</button>
-<button class="btn alt" id="btnLoad">­ƒôé Carregar</button>
-<button class="btn" id="btnNew">­ƒî▒ Novo mundo</button>
+<button class="btn alt" id="btnSave">💾 Salvar</button>
+<button class="btn alt" id="btnLoad">📂 Carregar</button>
+<button class="btn" id="btnNew">🌱 Novo mundo</button>
 </div>
 </div>
 <div class="card">
-<h2>­ƒÉ¥ Animais de Estima├º├úo (<span id="petN">0</span>)</h2>
-<div style="font-size:12px;margin-bottom:6px">Clique em qualquer animal para adotar! Pets te seguem, te protegem e ganham nomes fofos. ­ƒÉÂ­ƒÉ▒­ƒªå</div>
+<h2>🐾 Animais de Estimação (<span id="petN">0</span>)</h2>
+<div style="font-size:12px;margin-bottom:6px">Clique em qualquer animal para adotar! Pets te seguem, te protegem e ganham nomes fofos. 🐶🐱🦆</div>
 <div id="petList" style="font-size:13px;display:flex;flex-direction:column;gap:6px;max-height:220px;overflow:auto"></div>
 <div class="row" style="margin-top:6px">
-<button class="btn" id="btnCallPets">­ƒôú Chamar (P)</button>
-<button class="btn warn" id="btnHealPets">­ƒÆû Curar pets</button>
+<button class="btn" id="btnCallPets">📣 Chamar (P)</button>
+<button class="btn warn" id="btnHealPets">💖 Curar pets</button>
 </div>
 </div>
 <div class="card" id="creativePanel">
-<h2>­ƒÄ¿ MODO CRIATIVO - Todos os blocos</h2>
+<h2>🎨 MODO CRIATIVO - Todos os blocos</h2>
 <div class="row" id="blockList"></div>
-<h2>­ƒÑÜ Ovos de animais (clique p/ spawnar)</h2>
+<h2>🥚 Ovos de animais (clique p/ spawnar)</h2>
 <div class="row" id="eggList" style="max-height:220px;overflow:auto"></div>
-<h2>Ô£¿ Poderes criativos</h2>
-<label><input type="checkbox" id="flyChk"> ­ƒòè´©Å Voar</label><br>
-<label><input type="checkbox" id="godChk" checked> ­ƒøí´©Å Vida infinita</label><br>
-<button class="btn" id="btnRain">­ƒîº´©Å Chuva de animais!</button>
+<h2>✨ Poderes criativos</h2>
+<label><input type="checkbox" id="flyChk"> 🕊️ Voar</label><br>
+<label><input type="checkbox" id="godChk" checked> 🛡️ Vida infinita</label><br>
+<button class="btn" id="btnRain">🌧️ Chuva de animais!</button>
 </div>
 <div class="card">
-<h2>­ƒôû Enciclop├®dia (<span id="foundN">0</span>/<span id="totalN">0</span>)</h2>
+<h2>📖 Enciclopédia (<span id="foundN">0</span>/<span id="totalN">0</span>)</h2>
 <div id="dex" style="font-size:13px;max-height:220px;overflow:auto"></div>
 </div>
-<div class="card" style="font-size:12px">­ƒÆí Dica: ative o CRIATIVO para ganhar todos os blocos infinitos, voar e spawnar qualquer animal na hora!</div>
+<div class="card" style="font-size:12px">💡 Dica: ative o CRIATIVO para ganhar todos os blocos infinitos, voar e spawnar qualquer animal na hora!</div>
 </div>
 </div>
 <script>
@@ -128,82 +119,80 @@ const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
 function resize(){cv.width=cv.clientWidth;cv.height=cv.clientHeight} 
 window.addEventListener('resize',resize);resize();
 
-// Blocos - paleta cl├íssica Minecraft
+// Blocos
 const BLOCKS={
- grass:{c:'#7cbd6b',c2:'#5d8a4a',name:'Grama',hard:1},
- dirt:{c:'#79553a',c2:'#5a3d28',name:'Terra',hard:1},
- stone:{c:'#828282',c2:'#5f5f5f',name:'Pedra',hard:3},
- wood:{c:'#6b5230',c2:'#4a3820',name:'Madeira',hard:2},
- leaves:{c:'#2d6a2d',c2:'#1d4a1d',name:'Folhas',hard:1},
- sand:{c:'#dbd29d',c2:'#c2b57e',name:'Areia',hard:1},
- water:{c:'#3f76e4',c2:'#2a4fb0',name:'├ügua',hard:99,solid:false},
- snow:{c:'#eef4f5',c2:'#cbd8db',name:'Neve',hard:1},
+ grass:{c:'#4caf50',c2:'#388e3c',name:'Grama',hard:1},
+ dirt:{c:'#8d6e63',c2:'#6d4c41',name:'Terra',hard:1},
+ stone:{c:'#9e9e9e',c2:'#616161',name:'Pedra',hard:3},
+ wood:{c:'#a16207',c2:'#713f12',name:'Madeira',hard:2},
+ leaves:{c:'#16a34a',c2:'#14532d',name:'Folhas',hard:1},
+ sand:{c:'#fde68a',c2:'#f59e0b',name:'Areia',hard:1},
+ water:{c:'#0284c7',c2:'#075985',name:'Água',hard:99,solid:false},
+ snow:{c:'#f8fafc',c2:'#cbd5e1',name:'Neve',hard:1},
  ice:{c:'#a5f3fc',c2:'#22d3ee',name:'Gelo',hard:2},
  flower:{c:'#4caf50',c2:'#ec4899',name:'Flores',hard:0},
  torch:{c:'#451a03',c2:'#facc15',name:'Tocha',hard:0},
  brick:{c:'#b91c1c',c2:'#7f1d1d',name:'Tijolos',hard:4},
  glass:{c:'#e0f2fe',c2:'#7dd3fc',name:'Vidro',hard:2},
- plank:{c:'#d6a35c',c2:'#92400e',name:'T├íbua',hard:2},
- coal:{c:'#44403c',c2:'#111111',name:'Carv├úo',hard:3},
+ plank:{c:'#d6a35c',c2:'#92400e',name:'Tábua',hard:2},
+ coal:{c:'#44403c',c2:'#111111',name:'Carvão',hard:3},
  diamond:{c:'#67e8f9',c2:'#0e7490',name:'Diamante',hard:5},
 };
 const BLOCK_KEYS=Object.keys(BLOCKS);
 
 // Todos os animais do mundo
 const ANIMALS=[
- {id:'vaca',e:'­ƒÉä',n:'Vaca',bio:['grass'],hostil:false,drop:'­ƒÑ®'},
- {id:'porco',e:'­ƒÉÀ',n:'Porco',bio:['grass'],hostil:false,drop:'­ƒÑô'},
- {id:'galinha',e:'­ƒÉö',n:'Galinha',bio:['grass'],hostil:false,drop:'­ƒìù'},
- {id:'ovelha',e:'­ƒÉæ',n:'Ovelha',bio:['grass','snow'],hostil:false,drop:'­ƒºÂ'},
- {id:'cabra',e:'­ƒÉÉ',n:'Cabra',bio:['stone'],hostil:false,drop:'­ƒÑø'},
- {id:'cavalo',e:'­ƒÉ┤',n:'Cavalo',bio:['grass'],hostil:false,drop:'­ƒÉÄ'},
- {id:'coelho',e:'­ƒÉ░',n:'Coelho',bio:['grass','snow'],hostil:false,drop:'­ƒÑò'},
- {id:'lobo',e:'­ƒÉ║',n:'Lobo',bio:['wood','snow'],hostil:true,drop:'­ƒª┤'},
- {id:'raposa',e:'­ƒªè',n:'Raposa',bio:['wood'],hostil:false,drop:'­ƒìç'},
- {id:'urso',e:'­ƒÉ╗',n:'Urso',bio:['wood','snow'],hostil:true,drop:'­ƒì»'},
- {id:'urso_polar',e:'­ƒÉ╗ÔÇìÔØä´©Å',n:'Urso Polar',bio:['snow','ice'],hostil:true,drop:'­ƒÉƒ'},
- {id:'veado',e:'­ƒªî',n:'Veado',bio:['wood'],hostil:false,drop:'­ƒî┐'},
- {id:'sapo',e:'­ƒÉ©',n:'Sapo',bio:['water'],hostil:false,drop:'­ƒ¬░'},
- {id:'tartaruga',e:'­ƒÉó',n:'Tartaruga',bio:['water','sand'],hostil:false,drop:'­ƒÉÜ'},
- {id:'gato',e:'­ƒÉ▒',n:'Gato',bio:['grass'],hostil:false,drop:'­ƒÉƒ'},
- {id:'leao',e:'­ƒªü',n:'Le├úo',bio:['sand'],hostil:true,drop:'­ƒìû'},
- {id:'tigre',e:'­ƒÉ»',n:'Tigre',bio:['wood'],hostil:true,drop:'­ƒìû'},
- {id:'elefante',e:'­ƒÉÿ',n:'Elefante',bio:['sand','grass'],hostil:false,drop:'­ƒÑ£'},
- {id:'girafa',e:'­ƒªÆ',n:'Girafa',bio:['sand'],hostil:false,drop:'­ƒìâ'},
- {id:'zebra',e:'­ƒªô',n:'Zebra',bio:['sand','grass'],hostil:false,drop:'­ƒî¥'},
- {id:'hipopotamo',e:'­ƒªø',n:'Hipop├│tamo',bio:['water'],hostil:true,drop:'­ƒìë'},
- {id:'macaco',e:'­ƒÉÆ',n:'Macaco',bio:['wood'],hostil:false,drop:'­ƒìî'},
- {id:'gorila',e:'­ƒªì',n:'Gorila',bio:['wood'],hostil:true,drop:'­ƒìî'},
- {id:'panda',e:'­ƒÉ╝',n:'Panda',bio:['wood'],hostil:false,drop:'­ƒÄï'},
- {id:'coala',e:'­ƒÉ¿',n:'Coala',bio:['wood'],hostil:false,drop:'­ƒî┐'},
- {id:'canguru',e:'­ƒªÿ',n:'Canguru',bio:['sand'],hostil:false,drop:'­ƒÑè'},
- {id:'camelo',e:'­ƒÉ¬',n:'Camelo',bio:['sand'],hostil:false,drop:'­ƒÆº'},
- {id:'pinguim',e:'­ƒÉº',n:'Pinguim',bio:['snow','ice'],hostil:false,drop:'­ƒÉƒ'},
- {id:'aguia',e:'­ƒªà',n:'├üguia',bio:['stone'],hostil:true,drop:'­ƒ¬Â'},
- {id:'papagaio',e:'­ƒª£',n:'Papagaio',bio:['wood'],hostil:false,drop:'­ƒîê'},
- {id:'coruja',e:'­ƒªë',n:'Coruja',bio:['wood'],hostil:false,drop:'­ƒîÖ'},
- {id:'pato',e:'­ƒªå',n:'Pato',bio:['water'],hostil:false,drop:'­ƒÑÜ'},
- {id:'flamingo',e:'­ƒª®',n:'Flamingo',bio:['water'],hostil:false,drop:'­ƒî©'},
- {id:'abelha',e:'­ƒÉØ',n:'Abelha',bio:['flower'],hostil:false,drop:'­ƒì»'},
- {id:'borboleta',e:'­ƒªï',n:'Borboleta',bio:['flower','grass'],hostil:false,drop:'­ƒîÀ'},
- {id:'peixe',e:'­ƒÉƒ',n:'Peixe',bio:['water'],hostil:false,drop:'­ƒìú'},
- {id:'tubarao',e:'­ƒªê',n:'Tubar├úo',bio:['water'],hostil:true,drop:'­ƒªÀ'},
- {id:'golfinho',e:'­ƒÉ¼',n:'Golfinho',bio:['water'],hostil:false,drop:'­ƒÆÖ'},
- {id:'baleia',e:'­ƒÉ│',n:'Baleia',bio:['water'],hostil:false,drop:'­ƒÆª'},
- {id:'polvo',e:'­ƒÉÖ',n:'Polvo',bio:['water'],hostil:false,drop:'­ƒªæ'},
- {id:'caranguejo',e:'­ƒªÇ',n:'Caranguejo',bio:['sand'],hostil:false,drop:'­ƒª×'},
- {id:'crocodilo',e:'­ƒÉè',n:'Crocodilo',bio:['water'],hostil:true,drop:'­ƒªÀ'},
- {id:'cobra',e:'­ƒÉì',n:'Cobra',bio:['sand','wood'],hostil:true,drop:'­ƒÑÜ'},
- {id:'lagarto',e:'­ƒªÄ',n:'Lagarto',bio:['sand'],hostil:false,drop:'­ƒîÁ'},
- {id:'escorpiao',e:'­ƒªé',n:'Escorpi├úo',bio:['sand'],hostil:true,drop:'Ôÿá´©Å'},
- {id:'pavao',e:'­ƒªÜ',n:'Pav├úo',bio:['grass'],hostil:false,drop:'­ƒ¬Â'},
+ {id:'vaca',e:'🐄',n:'Vaca',bio:['grass'],hostil:false,drop:'🥩'},
+ {id:'porco',e:'🐷',n:'Porco',bio:['grass'],hostil:false,drop:'🥓'},
+ {id:'galinha',e:'🐔',n:'Galinha',bio:['grass'],hostil:false,drop:'🍗'},
+ {id:'ovelha',e:'🐑',n:'Ovelha',bio:['grass','snow'],hostil:false,drop:'🧶'},
+ {id:'cabra',e:'🐐',n:'Cabra',bio:['stone'],hostil:false,drop:'🥛'},
+ {id:'cavalo',e:'🐴',n:'Cavalo',bio:['grass'],hostil:false,drop:'🐎'},
+ {id:'coelho',e:'🐰',n:'Coelho',bio:['grass','snow'],hostil:false,drop:'🥕'},
+ {id:'lobo',e:'🐺',n:'Lobo',bio:['wood','snow'],hostil:true,drop:'🦴'},
+ {id:'raposa',e:'🦊',n:'Raposa',bio:['wood'],hostil:false,drop:'🍇'},
+ {id:'urso',e:'🐻',n:'Urso',bio:['wood','snow'],hostil:true,drop:'🍯'},
+ {id:'urso_polar',e:'🐻‍❄️',n:'Urso Polar',bio:['snow','ice'],hostil:true,drop:'🐟'},
+ {id:'veado',e:'🦌',n:'Veado',bio:['wood'],hostil:false,drop:'🌿'},
+ {id:'sapo',e:'🐸',n:'Sapo',bio:['water'],hostil:false,drop:'🪰'},
+ {id:'tartaruga',e:'🐢',n:'Tartaruga',bio:['water','sand'],hostil:false,drop:'🐚'},
+ {id:'gato',e:'🐱',n:'Gato',bio:['grass'],hostil:false,drop:'🐟'},
+ {id:'leao',e:'🦁',n:'Leão',bio:['sand'],hostil:true,drop:'🍖'},
+ {id:'tigre',e:'🐯',n:'Tigre',bio:['wood'],hostil:true,drop:'🍖'},
+ {id:'elefante',e:'🐘',n:'Elefante',bio:['sand','grass'],hostil:false,drop:'🥜'},
+ {id:'girafa',e:'🦒',n:'Girafa',bio:['sand'],hostil:false,drop:'🍃'},
+ {id:'zebra',e:'🦓',n:'Zebra',bio:['sand','grass'],hostil:false,drop:'🌾'},
+ {id:'hipopotamo',e:'🦛',n:'Hipopótamo',bio:['water'],hostil:true,drop:'🍉'},
+ {id:'macaco',e:'🐒',n:'Macaco',bio:['wood'],hostil:false,drop:'🍌'},
+ {id:'gorila',e:'🦍',n:'Gorila',bio:['wood'],hostil:true,drop:'🍌'},
+ {id:'panda',e:'🐼',n:'Panda',bio:['wood'],hostil:false,drop:'🎋'},
+ {id:'coala',e:'🐨',n:'Coala',bio:['wood'],hostil:false,drop:'🌿'},
+ {id:'canguru',e:'🦘',n:'Canguru',bio:['sand'],hostil:false,drop:'🥊'},
+ {id:'camelo',e:'🐪',n:'Camelo',bio:['sand'],hostil:false,drop:'💧'},
+ {id:'pinguim',e:'🐧',n:'Pinguim',bio:['snow','ice'],hostil:false,drop:'🐟'},
+ {id:'aguia',e:'🦅',n:'Águia',bio:['stone'],hostil:true,drop:'🪶'},
+ {id:'papagaio',e:'🦜',n:'Papagaio',bio:['wood'],hostil:false,drop:'🌈'},
+ {id:'coruja',e:'🦉',n:'Coruja',bio:['wood'],hostil:false,drop:'🌙'},
+ {id:'pato',e:'🦆',n:'Pato',bio:['water'],hostil:false,drop:'🥚'},
+ {id:'flamingo',e:'🦩',n:'Flamingo',bio:['water'],hostil:false,drop:'🌸'},
+ {id:'abelha',e:'🐝',n:'Abelha',bio:['flower'],hostil:false,drop:'🍯'},
+ {id:'borboleta',e:'🦋',n:'Borboleta',bio:['flower','grass'],hostil:false,drop:'🌷'},
+ {id:'peixe',e:'🐟',n:'Peixe',bio:['water'],hostil:false,drop:'🍣'},
+ {id:'tubarao',e:'🦈',n:'Tubarão',bio:['water'],hostil:true,drop:'🦷'},
+ {id:'golfinho',e:'🐬',n:'Golfinho',bio:['water'],hostil:false,drop:'💙'},
+ {id:'baleia',e:'🐳',n:'Baleia',bio:['water'],hostil:false,drop:'💦'},
+ {id:'polvo',e:'🐙',n:'Polvo',bio:['water'],hostil:false,drop:'🦑'},
+ {id:'caranguejo',e:'🦀',n:'Caranguejo',bio:['sand'],hostil:false,drop:'🦞'},
+ {id:'crocodilo',e:'🐊',n:'Crocodilo',bio:['water'],hostil:true,drop:'🦷'},
+ {id:'cobra',e:'🐍',n:'Cobra',bio:['sand','wood'],hostil:true,drop:'🥚'},
+ {id:'lagarto',e:'🦎',n:'Lagarto',bio:['sand'],hostil:false,drop:'🌵'},
+ {id:'escorpiao',e:'🦂',n:'Escorpião',bio:['sand'],hostil:true,drop:'☠️'},
+ {id:'pavao',e:'🦚',n:'Pavão',bio:['grass'],hostil:false,drop:'🪶'},
 ];
 document.getElementById('totalN').textContent=ANIMALS.length;
 
 // Mundo
-let map=[], player={skin:'steve'}, animals=[], particles=[], time=12, day=1, creative=false, fly=false, god=true;
-const SKINS={steve:{e:'­ƒºæ',n:'Steve'},duck:{e:'­ƒªå',n:'Pato'},witch:{e:'­ƒºÖ',n:'Bruxo'}};
-function setSkin(s){player.skin=s;document.getElementById('skinName').textContent=SKINS[s].e+' '+SKINS[s].n;msg('­ƒªå Skin trocada: '+SKINS[s].e+' '+SKINS[s].n+'!');snd(700)}
+let map=[], player={}, animals=[], particles=[], time=12, day=1, creative=false, fly=false, god=true;
 let inv={}, hotbar=['grass','wood','stone','plank','brick','glass','torch','flower','diamond'], sel=0;
 BLOCK_KEYS.forEach(k=>inv[k]=creative?999:0);
 inv.grass=20;inv.wood=10;inv.dirt=10;
@@ -223,7 +212,7 @@ function genWorld(){
  }map.push(r)}
  // lagos
  for(let i=0;i<6;i++){let cx=Math.random()*W|0,cy=Math.random()*H|0;for(let d=0;d<40;d++){let x=cx+(Math.random()*12|0)-6,y=cy+(Math.random()*12|0)-6;if(x>=0&&y>=0&&x<W&&y<H)map[y][x]='water'}}
-  player={x:W/2*TILE,y:H/2*TILE,hp:10,food:10,skin:(player&&player.skin)||'duck'};
+  player={x:W/2*TILE,y:H/2*TILE,hp:10,food:10,name:'Livia'};
  animals=[];
  for(let i=0;i<70;i++) spawnRandom(false);
 }
@@ -240,39 +229,39 @@ function addAnimal(id,tx,ty){
  animals.push({id:d.id,e:d.e,n:d.n,hostil:d.hostil,drop:d.drop,x:tx*TILE,y:ty*TILE,vx:0,vy:0,t:Math.random()*5,hp:5,maxhp:5,tame:false,pet:false,petName:'',sit:false,love:0,level:1});
  discover(id);
 }
-// ===== SISTEMA DE PETS ­ƒÉ¥ =====
-const PET_NAMES=['Bolinha','Floquinho','Pipoca','Mel','Thor','Luna','Toby','Nina','Max','Bella','Simba','Lola','Pa├ºoca','Cookie','Ted','Mimi','Rocky','Sol','Estrela','Fred'];
+// ===== SISTEMA DE PETS 🐾 =====
+const PET_NAMES=['Bolinha','Floquinho','Pipoca','Mel','Thor','Luna','Toby','Nina','Max','Bella','Simba','Lola','Paçoca','Cookie','Ted','Mimi','Rocky','Sol','Estrela','Fred'];
 function adoptPet(a){
  a.pet=true;a.tame=true;a.hostil=false;a.sit=false;a.love=1;a.level=1;a.maxhp=10;a.hp=a.maxhp;
  a.petName=(PET_NAMES[Math.random()*PET_NAMES.length|0])+' '+a.e;
  puff(a.x+16,a.y+16,'#ff69b4');puff(a.x+16,a.y+16,'#facc15');
- msg('­ƒÉ¥ Novo pet: '+a.petName+' ('+a.n+')! Ele vai te seguir e proteger! ­ƒÆÜ');snd(880);setTimeout(()=>snd(990),150);
+ msg('🐾 Novo pet: '+a.petName+' ('+a.n+')! Ele vai te seguir e proteger! 💚');snd(880);setTimeout(()=>snd(990),150);
  renderPets();
 }
 function renderPets(){
  let pets=animals.filter(a=>a.pet);
  document.getElementById('petN').textContent=pets.length;
  let el=document.getElementById('petList');
- if(!pets.length){el.innerHTML='<span style="color:#9ca3af">Nenhum pet ainda... clique em um animal! ­ƒÑ║</span>';return}
+ if(!pets.length){el.innerHTML='<span style="color:#9ca3af">Nenhum pet ainda... clique em um animal! 🥺</span>';return}
  el.innerHTML='';
  pets.forEach((p,i)=>{
   let d=document.createElement('div');
   d.style.cssText='background:#0f172a;border:1px solid #334155;border-radius:8px;padding:6px;display:flex;gap:6px;align-items:center;justify-content:space-between';
-  d.innerHTML=`<span>${p.e} <b>${p.petName}</b><br><small>Nv ${p.level} ÔØñ´©Å${Math.ceil(p.hp)}/${p.maxhp} ${p.sit?'­ƒ¬æ sentado':'­ƒÜÂ seguindo'}</small></span>`;
+  d.innerHTML=`<span>${p.e} <b>${p.petName}</b><br><small>Nv ${p.level} ❤️${Math.ceil(p.hp)}/${p.maxhp} ${p.sit?'🪑 sentado':'🚶 seguindo'}</small></span>`;
   let btns=document.createElement('span');
-  btns.innerHTML=`<button title="seguir/sentar" style="font-size:16px;cursor:pointer">${p.sit?'­ƒÜÂ':'­ƒ¬æ'}</button> <button title="renomear" style="font-size:16px;cursor:pointer">Ô£Å´©Å</button> <button title="soltar" style="font-size:16px;cursor:pointer">ÔØî</button>`;
+  btns.innerHTML=`<button title="seguir/sentar" style="font-size:16px;cursor:pointer">${p.sit?'🚶':'🪑'}</button> <button title="renomear" style="font-size:16px;cursor:pointer">✏️</button> <button title="soltar" style="font-size:16px;cursor:pointer">❌</button>`;
   let [bSit,bRen,bRel]=btns.querySelectorAll('button');
-  bSit.onclick=()=>{p.sit=!p.sit;msg(p.sit?`­ƒ¬æ ${p.petName} sentou!`:`­ƒÜÂ ${p.petName} vai te seguir!`);renderPets()};
-  bRen.onclick=()=>{let n=prompt('Novo nome para seu pet '+p.e+' ('+p.n+'):',p.petName);if(n&&n.trim()){p.petName=n.trim().slice(0,20);renderPets();msg('Ô£Å´©Å Pet agora se chama '+p.petName)}};
-  bRel.onclick=()=>{p.pet=false;p.sit=false;msg('­ƒÿó '+p.petName+' voltou pra natureza...');renderPets()};
+  bSit.onclick=()=>{p.sit=!p.sit;msg(p.sit?`🪑 ${p.petName} sentou!`:`🚶 ${p.petName} vai te seguir!`);renderPets()};
+  bRen.onclick=()=>{let n=prompt('Novo nome para seu pet '+p.e+' ('+p.n+'):',p.petName);if(n&&n.trim()){p.petName=n.trim().slice(0,20);renderPets();msg('✏️ Pet agora se chama '+p.petName)}};
+  bRel.onclick=()=>{p.pet=false;p.sit=false;msg('😢 '+p.petName+' voltou pra natureza...');renderPets()};
   d.appendChild(btns);el.appendChild(d);
  });
 }
-function callPets(){let n=0;animals.forEach(a=>{if(a.pet){a.x=player.x+(Math.random()*80-40);a.y=player.y+(Math.random()*80-40);a.sit=false;n++}});msg(n?`­ƒôú ${n} pet(s) vieram at├® voc├¬! ­ƒÉ¥`:'ÔÜá´©Å Voc├¬ ainda n├úo tem pets!');renderPets();snd(760)}
-function healPets(){animals.forEach(a=>{if(a.pet){a.hp=a.maxhp;a.love++;if(a.love>=3){a.love=0;a.level++;a.maxhp+=2;a.hp=a.maxhp;msg('Ô¼å´©Å '+a.petName+' subiu para Nv '+a.level+'! ­ƒÄë')}}});msg('­ƒÆû Pets curados!');renderPets()}
+function callPets(){let n=0;animals.forEach(a=>{if(a.pet){a.x=player.x+(Math.random()*80-40);a.y=player.y+(Math.random()*80-40);a.sit=false;n++}});msg(n?`📣 ${n} pet(s) vieram até você! 🐾`:'⚠️ Você ainda não tem pets!');renderPets();snd(760)}
+function healPets(){animals.forEach(a=>{if(a.pet){a.hp=a.maxhp;a.love++;if(a.love>=3){a.love=0;a.level++;a.maxhp+=2;a.hp=a.maxhp;msg('⬆️ '+a.petName+' subiu para Nv '+a.level+'! 🎉')}}});msg('💖 Pets curados!');renderPets()}
 const found=new Set();
-function discover(id){if(!found.has(id)){found.add(id);msg('­ƒÄë Novo animal: '+ANIMALS.find(a=>a.id===id).n+' '+ANIMALS.find(a=>a.id===id).e);renderDex();snd(660)}document.getElementById('foundN').textContent=found.size}
-function renderDex(){document.getElementById('dex').innerHTML=ANIMALS.map(a=>found.has(a.id)?`Ô£à ${a.e} ${a.n}`:`ÔØö ???`).join('<br>')}
+function discover(id){if(!found.has(id)){found.add(id);msg('🎉 Novo animal: '+ANIMALS.find(a=>a.id===id).n+' '+ANIMALS.find(a=>a.id===id).e);renderDex();snd(660)}document.getElementById('foundN').textContent=found.size}
+function renderDex(){document.getElementById('dex').innerHTML=ANIMALS.map(a=>found.has(a.id)?`✅ ${a.e} ${a.n}`:`❔ ???`).join('<br>')}
 
 // Input
 const keys={};
@@ -281,7 +270,7 @@ addEventListener('keydown',e=>{
  if(e.key>='1'&&e.key<='9'){sel=+e.key-1;renderHot()}
  if(e.key.toLowerCase()==='c') toggleCreative();
  if(e.key.toLowerCase()==='e') toggleInv();
- if(e.key.toLowerCase()==='t'){player.skin=player.skin==='duck'?'steve':player.skin==='steve'?'witch':'duck';setSkin(player.skin)}
+ 
  if(e.key.toLowerCase()==='p') callPets();
  if(e.key.toLowerCase()===' '&&fly) e.preventDefault();
 });
@@ -296,7 +285,7 @@ cv.addEventListener('touchstart',e=>{let t=e.touches[0],r=cv.getBoundingClientRe
 
 let cam={x:0,y:0};
 function worldMouse(){return{x:cam.x+mouse.x*(cv.width/cv.clientWidth||1),y:cam.y+mouse.y*(cv.height/cv.clientHeight||1)}}
-// Simplifica├º├úo: c├ómera em pixels = cam; mouse em tela -> mundo
+// Simplificação: câmera em pixels = cam; mouse em tela -> mundo
 function screenToWorld(mx,my){return{x:cam.x+mx,y:cam.y+my}}
 function handleClick(e){
  let r=cv.getBoundingClientRect();
@@ -313,40 +302,40 @@ function handleClick(e){
  // quebrar
  let b=map[ty][tx];
  if(b==='water')return;
- if(BLOCKS[b].hard>=99){msg('­ƒîè N├úo d├í pra quebrar ├ígua!');return}
+ if(BLOCKS[b].hard>=99){msg('🌊 Não dá pra quebrar água!');return}
  map[ty][tx]='grass';
  if(BLOCKS[b]){inv[b]=(inv[b]||0)+(creative?0:1);puff(wx,wy,BLOCKS[b].c);snd(220)}
  renderHot();
 }
 function interact(a){
  if(!a.pet){
-  // adotar qualquer animal, at├® predador vira bonzinho!
-  if(a.hostil && !creative && Math.random()<0.3){player.hp-=1;msg('­ƒÿ▒ O '+a.n+' te mordeu! Clique de novo com carinho pra domar!');snd(150);if(player.hp<=0 && !god){respawn()}return}
+  // adotar qualquer animal, até predador vira bonzinho!
+  if(a.hostil && !creative && Math.random()<0.3){player.hp-=1;msg('😱 O '+a.n+' te mordeu! Clique de novo com carinho pra domar!');snd(150);if(player.hp<=0 && !god){respawn()}return}
   adoptPet(a);return;
  }
- // j├í ├® pet: carinho = cura + alterna sentar/seguir a cada 2 cliques? aqui: carinho + mostra status
+ // já é pet: carinho = cura + alterna sentar/seguir a cada 2 cliques? aqui: carinho + mostra status
  a.love++;a.hp=Math.min(a.maxhp,a.hp+1);
- if(a.love>=4){a.love=0;a.level++;a.maxhp+=2;a.hp=a.maxhp;msg('Ô¼å´©Å '+a.petName+' subiu para Nv '+a.level+'! '+a.e+'­ƒÄë');snd(990)}
- else{msg('­ƒÆÜ '+a.petName+' ('+a.n+') te ama! '+a.e+' Nv '+a.level);snd(520)}
+ if(a.love>=4){a.love=0;a.level++;a.maxhp+=2;a.hp=a.maxhp;msg('⬆️ '+a.petName+' subiu para Nv '+a.level+'! '+a.e+'🎉');snd(990)}
+ else{msg('💚 '+a.petName+' ('+a.n+') te ama! '+a.e+' Nv '+a.level);snd(520)}
  puff(a.x+16,a.y+8,'#ff69b4');
  renderPets();renderHot();
 }
-function respawn(){msg('­ƒÆÇ Voc├¬ renasceu!');player.hp=10;player.food=10;player.x=W/2*TILE;player.y=H/2*TILE}
+function respawn(){msg('💀 Você renasceu!');player.hp=10;player.food=10;player.x=W/2*TILE;player.y=H/2*TILE}
 
 // criativo
-function toggleCreative(){creative=!creative;document.getElementById('creativeBtn').textContent=creative?'­ƒÄ¿ CRIATIVO: ON':'­ƒÄ¿ CRIATIVO: OFF (C)';document.getElementById('modePill').textContent=creative?'Ô£¿ criativo: CRIATIVO':'´┐¢ survival: SOBREVIV├èNCIA';document.getElementById('creativePanel').style.display=creative?'block':'none';if(creative){BLOCK_KEYS.forEach(k=>inv[k]=999);fly=document.getElementById('flyChk').checked=true}else{BLOCK_KEYS.forEach(k=>{if(inv[k]>900)inv[k]=20})}renderHot();msg(creative?'­ƒÄ¿ MODO CRIATIVO ATIVADO! Voar, vida infinita e todos os blocos!':'´┐¢ survival MODO SOBREVIV├èNCIA');snd(creative?880:440)}
+function toggleCreative(){creative=!creative;document.getElementById('creativeBtn').textContent=creative?'🎨 CRIATIVO: ON':'🎨 CRIATIVO: OFF (C)';document.getElementById('modePill').textContent=creative?'✨ criativo: CRIATIVO':'� survival: SOBREVIVÊNCIA';document.getElementById('creativePanel').style.display=creative?'block':'none';if(creative){BLOCK_KEYS.forEach(k=>inv[k]=999);fly=document.getElementById('flyChk').checked=true}else{BLOCK_KEYS.forEach(k=>{if(inv[k]>900)inv[k]=20})}renderHot();msg(creative?'🎨 MODO CRIATIVO ATIVADO! Voar, vida infinita e todos os blocos!':'� survival MODO SOBREVIVÊNCIA');snd(creative?880:440)}
 function toggleInv(){let p=document.getElementById('creativePanel');let sb=document.querySelector('#sidebar');if(window.innerWidth<=800){sb.classList.toggle('open')}else{p.style.display=(p.style.display==='block'&&creative)?'none':'block'}}
 
 // hotbar / listas
 function renderHot(){
  let hb=document.getElementById('hotbar');hb.innerHTML='';
- hotbar.forEach((b,i)=>{let d=document.createElement('div');d.className='slot'+(i===sel?' sel':'');let emo={grass:'­ƒƒ®',dirt:'­ƒƒ½',stone:'Ô¼£',wood:'­ƒ¬Á',leaves:'­ƒî│',sand:'­ƒƒ¿',water:'­ƒÆº',snow:'Ô¼£',ice:'­ƒºè',flower:'­ƒî©',torch:'­ƒöÑ',brick:'­ƒº▒',glass:'­ƒ¬ƒ',plank:'­ƒ¬æ',coal:'ÔÜ½',diamond:'­ƒÆÄ'}[b]||'ÔØö';d.innerHTML=`${emo}<small>${BLOCKS[b].name}</small><span class="n">${creative?'Ôê×':(inv[b]||0)}</span>`;d.onclick=()=>{sel=i;renderHot()};hb.appendChild(d)});
+ hotbar.forEach((b,i)=>{let d=document.createElement('div');d.className='slot'+(i===sel?' sel':'');let emo={grass:'🟩',dirt:'🟫',stone:'⬜',wood:'🪵',leaves:'🌳',sand:'🟨',water:'💧',snow:'⬜',ice:'🧊',flower:'🌸',torch:'🔥',brick:'🧱',glass:'🪟',plank:'🪑',coal:'⚫',diamond:'💎'}[b]||'❔';d.innerHTML=`${emo}<small>${BLOCKS[b].name}</small><span class="n">${creative?'∞':(inv[b]||0)}</span>`;d.onclick=()=>{sel=i;renderHot()};hb.appendChild(d)});
 }
 function renderCreative(){
  let bl=document.getElementById('blockList');bl.innerHTML='';
- BLOCK_KEYS.forEach(k=>{let d=document.createElement('div');d.className='egg';d.innerHTML=`${{grass:'­ƒƒ®',dirt:'­ƒƒ½',stone:'Ô¼£',wood:'­ƒ¬Á',leaves:'­ƒî│',sand:'­ƒƒ¿',water:'­ƒÆº',snow:'ÔØä´©Å',ice:'­ƒºè',flower:'­ƒî©',torch:'­ƒöÑ',brick:'­ƒº▒',glass:'­ƒ¬ƒ',plank:'­ƒ¬æ',coal:'ÔÜ½',diamond:'­ƒÆÄ'}[k]}<small>${BLOCKS[k].name}</small>`;d.onclick=()=>{hotbar[sel]=k;renderHot();msg('Ô£à '+BLOCKS[k].name+' equipado!')};bl.appendChild(d)});
+ BLOCK_KEYS.forEach(k=>{let d=document.createElement('div');d.className='egg';d.innerHTML=`${{grass:'🟩',dirt:'🟫',stone:'⬜',wood:'🪵',leaves:'🌳',sand:'🟨',water:'💧',snow:'❄️',ice:'🧊',flower:'🌸',torch:'🔥',brick:'🧱',glass:'🪟',plank:'🪑',coal:'⚫',diamond:'💎'}[k]}<small>${BLOCKS[k].name}</small>`;d.onclick=()=>{hotbar[sel]=k;renderHot();msg('✅ '+BLOCKS[k].name+' equipado!')};bl.appendChild(d)});
  let el=document.getElementById('eggList');el.innerHTML='';
- ANIMALS.forEach(a=>{let d=document.createElement('div');d.className='egg';d.innerHTML=`${a.e}<small>${a.n}</small>`;d.title='Spawnar '+a.n;d.onclick=()=>{let tx=Math.floor(player.x/TILE)+(Math.random()*6|0)-3,ty=Math.floor(player.y/TILE)+(Math.random()*6|0)-3;addAnimal(a.id,Math.max(0,Math.min(W-1,tx)),Math.max(0,Math.min(H-1,ty)));msg('­ƒÑÜ '+a.n+' spawnado!')};el.appendChild(d)});
+ ANIMALS.forEach(a=>{let d=document.createElement('div');d.className='egg';d.innerHTML=`${a.e}<small>${a.n}</small>`;d.title='Spawnar '+a.n;d.onclick=()=>{let tx=Math.floor(player.x/TILE)+(Math.random()*6|0)-3,ty=Math.floor(player.y/TILE)+(Math.random()*6|0)-3;addAnimal(a.id,Math.max(0,Math.min(W-1,tx)),Math.max(0,Math.min(H-1,ty)));msg('🥚 '+a.n+' spawnado!')};el.appendChild(d)});
 }
 
 // sons
@@ -379,14 +368,14 @@ function loop(){
   if(a.t<=0){a.t=1+Math.random()*3;let ang=Math.random()*Math.PI*2;a.vx=Math.cos(ang)*30;a.vy=Math.sin(ang)*30;if(a.id==='peixe'||a.id==='tubarao'||a.id==='golfinho'||a.id==='baleia'||a.id==='polvo'){} }
   let dxp=(player.x-a.x),dyp=(player.y-a.y),d=Math.hypot(dxp,dyp)||1;
   if(a.pet){
-   // pet: regenera, teleporta se longe, segue se n├úo sentado, protege dono
+   // pet: regenera, teleporta se longe, segue se não sentado, protege dono
    a.hp=Math.min(a.maxhp,a.hp+dt*0.5);
    if(d>700){a.x=player.x+(Math.random()*60-30);a.y=player.y+(Math.random()*60-30)}
    else if(!a.sit&&d>60){a.vx=dxp/d*110;a.vy=dyp/d*110}
    else if(a.sit){a.vx*=0.9;a.vy*=0.9}
    // protege: ataca predador perto do dono
    let foe=animals.find(o=>!o.pet&&o.hostil&&Math.hypot(o.x-player.x,o.y-player.y)<200);
-   if(foe){let fdx=foe.x-a.x,fdy=foe.y-a.y,fd=Math.hypot(fdx,fdy)||1;a.vx=fdx/fd*130;a.vy=fdy/fd*130;if(fd<30){foe.hp-=dt*5;puff(foe.x+16,foe.y+16,'#ef4444');if(foe.hp<=0){animals.splice(animals.indexOf(foe),1);msg('­ƒª© '+a.petName+' derrotou o predador! +XP');a.level++;a.maxhp+=1;a.hp=a.maxhp;renderPets()}}}
+   if(foe){let fdx=foe.x-a.x,fdy=foe.y-a.y,fd=Math.hypot(fdx,fdy)||1;a.vx=fdx/fd*130;a.vy=fdy/fd*130;if(fd<30){foe.hp-=dt*5;puff(foe.x+16,foe.y+16,'#ef4444');if(foe.hp<=0){animals.splice(animals.indexOf(foe),1);msg('🦸 '+a.petName+' derrotou o predador! +XP');a.level++;a.maxhp+=1;a.hp=a.maxhp;renderPets()}}}
   }
   else if(a.hostil&&d<220&&!creative){a.vx=dxp/d*70;a.vy=dyp/d*70;if(d<30&&(!god)){player.hp-=dt*2;if(player.hp<=0)respawn()}}
   else if(a.tame&&d>80){a.vx=dxp/d*60;a.vy=dyp/d*60}
@@ -397,8 +386,8 @@ function loop(){
  particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.l--});particles=particles.filter(p=>p.l>0);
  draw(isNight);
  // hud
- let hh=Math.ceil(Math.max(0,player.hp)/2);document.getElementById('hearts').textContent='ÔØñ´©Å'.repeat(hh)+'­ƒñì'.repeat(5-hh)+' '+'­ƒìù'.repeat(Math.ceil(player.food/2));
- let h=Math.floor(time),m=Math.floor((time-h)*60);document.getElementById('clock').textContent=(isNight?'­ƒîÖ Noite':'ÔÿÇ´©Å Dia')+` ${day} - ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+ let hh=Math.ceil(Math.max(0,player.hp)/2);document.getElementById('hearts').textContent='❤️'.repeat(hh)+'🤍'.repeat(5-hh)+' '+'🍗'.repeat(Math.ceil(player.food/2));
+ let h=Math.floor(time),m=Math.floor((time-h)*60);document.getElementById('clock').textContent=(isNight?'🌙 Noite':'☀️ Dia')+` ${day} - ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
  requestAnimationFrame(loop);
 }
 function collide(x,y){
@@ -416,96 +405,126 @@ function sunColor(t){
  if(t<19) return {dark:0.25,warm:0.55};
  return {dark:0.1,warm:0.2};
 }
-function drawMC(x,y,b,sx,sy,r1,r2,r3,now){
- // pixel 4x4 estilo Minecraft 16x16
- let P=4;
- function px(ix,iy,c){ctx.fillStyle=c;ctx.fillRect(sx+ix*P,sy+iy*P,P,P)}
- function noise(base,dark,light){
-  for(let iy=0;iy<8;iy++)for(let ix=0;ix<8;ix++){
-   let h=hash(x*8+ix,y*8+iy);
-   px(ix,iy,h>0.82?light:h<0.2?dark:base);
-  }
- }
- if(b==='grass'){
-  noise('#79553a','#4a3320','#8a6547');
-  for(let ix=0;ix<8;ix++)for(let iy=0;iy<2;iy++){let h=hash(x*8+ix,y*2+iy+50);px(ix,iy,h>0.4?'#6aaa5a':'#7cbd6b')}
-  ctx.fillStyle='#3d6b32';ctx.fillRect(sx,sy+TILE-3,TILE,1);
- } else if(b==='dirt'){noise('#79553a','#4a3320','#8a6547');
- } else if(b==='stone'||b==='coal'||b==='diamond'){
-  noise('#828282','#5f5f5f','#9a9a9a');
-  if(b==='coal'){px(2,2,'#1a1a1a');px(3,2,'#1a1a1a');px(5,5,'#1a1a1a');px(6,5,'#1a1a1a');px(3,6,'#1a1a1a')}
-  if(b==='diamond'){px(2,2,'#5ff2f2');px(3,2,'#5ff2f2');px(5,5,'#5ff2f2');px(6,5,'#5ff2f2');px(3,6,'#a5ffff');px(2,3,'#fff')}
- } else if(b==='wood'){
-  for(let iy=0;iy<8;iy++)for(let ix=0;ix<8;ix++){px(ix,iy,(ix===0||ix===7)?'#4a3820':hash(x*8+ix,y*8+iy)>0.5?'#6b5230':'#5d4729')}
-  ctx.fillStyle='#2d6a2d';ctx.fillRect(sx+2,sy,28,10);ctx.fillStyle='#3d8a3d';ctx.fillRect(sx+6,sy+2,10,6);
- } else if(b==='leaves'){
-  for(let iy=0;iy<8;iy++)for(let ix=0;ix<8;ix++){let h=hash(x*8+ix,y*8+iy);px(ix,iy,h>0.75?'#0f2f0f':h>0.4?'#2d6a2d':'#3d8a3d')}
- } else if(b==='sand'){noise('#dbd29d','#b8ab72','#ece5b8');
- } else if(b==='water'){
-  noise('#3f76e4','#2a4fb0','#5a92ff');
-  let w=Math.floor(Math.sin(now/500+x)*2);
-  ctx.fillStyle='rgba(255,255,255,.4)';ctx.fillRect(sx+4+w,sy+8,12,2);ctx.fillRect(sx+14-w,sy+20,10,2);
- } else if(b==='snow'){noise('#eef4f5','#c2d2d6','#ffffff');
- } else if(b==='ice'){
-  noise('#a8c8e8','#7aa8d0','#e0f0ff');
-  ctx.fillStyle='rgba(255,255,255,.6)';ctx.fillRect(sx+4,sy+4,14,2);
- } else if(b==='flower'){
-  noise('#79553a','#4a3320','#8a6547');
-  ctx.fillStyle='#2d7a2d';ctx.fillRect(sx+14,sy+10,4,16);
-  ctx.fillStyle=r1>0.5?'#d02020':'#e8e8e8';ctx.fillRect(sx+11,sy+4,10,8);ctx.fillStyle='#ffeb3b';ctx.fillRect(sx+14,sy+6,4,4);
- } else if(b==='torch'){
-  noise('#6b6b6b','#4a4a4a','#828282');
-  ctx.fillStyle='#6b4a20';ctx.fillRect(sx+14,sy+12,4,16);
-  ctx.fillStyle='#ffeb3b';ctx.fillRect(sx+12,sy+6,8,8);ctx.fillStyle='#ff9800';ctx.fillRect(sx+13,sy+7,6,6);ctx.fillStyle='#fff';ctx.fillRect(sx+14,sy+7,3,3);
- } else if(b==='brick'){
-  for(let iy=0;iy<8;iy++)for(let ix=0;ix<8;ix++){let mortar=(iy===3||iy===7||((iy<3?ix===3||ix===6:ix===1||ix===5)));px(ix,iy,mortar?'#b8b8b8':'#96251f')}
- } else if(b==='glass'){
-  ctx.fillStyle='#c8ecf5';ctx.fillRect(sx,sy,TILE,TILE);
-  ctx.fillStyle='#fff';ctx.fillRect(sx+3,sy+3,20,2);ctx.fillRect(sx+3,sy+3,2,20);
-  ctx.strokeStyle='#7aa8b8';ctx.strokeRect(sx+.5,sy+.5,TILE-1,TILE-1);
- } else if(b==='plank'){
-  for(let iy=0;iy<8;iy++)for(let ix=0;ix<8;ix++){px(ix,iy,iy%4===3?'#5d3f1d':'#a67c3f')}
-  ctx.fillStyle='#5d3f1d';ctx.fillRect(sx+15,sy,2,TILE);
- } else {noise('#7cbd6b','#4a7a3d','#95d485')}
- // borda pixelada MC
- ctx.strokeStyle='rgba(0,0,0,.18)';ctx.strokeRect(sx+.5,sy+.5,TILE-1,TILE-1);
-}
 function draw(isNight){
  let now=Date.now();
- ctx.imageSmoothingEnabled=false;
- ctx.fillStyle='#000';ctx.fillRect(0,0,cv.width,cv.height);
+ ctx.fillStyle='#0a0f1e';ctx.fillRect(0,0,cv.width,cv.height);
  let x0=Math.max(0,Math.floor(cam.x/TILE)),y0=Math.max(0,Math.floor(cam.y/TILE));
  let x1=Math.min(W-1,x0+Math.ceil(cv.width/TILE)+1),y1=Math.min(H-1,y0+Math.ceil(cv.height/TILE)+1);
  for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){
-  let b=map[y][x],sx=Math.round(x*TILE-cam.x),sy=Math.round(y*TILE-cam.y);
+  let b=map[y][x],B=BLOCKS[b]||BLOCKS.grass,sx=Math.round(x*TILE-cam.x),sy=Math.round(y*TILE-cam.y);
   let r1=hash(x,y),r2=hash(y,x+99),r3=hash(x+7,y+13);
-  drawMC(x,y,b,sx,sy,r1,r2,r3,now);
+  // base com gradiente realista
+  let g=ctx.createLinearGradient(sx,sy,sx,sy+TILE);
+  g.addColorStop(0,B.c);g.addColorStop(1,B.c2);
+  ctx.fillStyle=g;ctx.fillRect(sx,sy,TILE,TILE);
+  // textura por bloco
+  if(b==='grass'){
+   ctx.fillStyle='rgba(0,60,0,.35)';
+   for(let i=0;i<5;i++){let gx=sx+hash(x*5+i,y)*TILE,gy=sy+hash(x,y*5+i)*TILE;ctx.fillRect(gx,gy,2,5)}
+   ctx.fillStyle='rgba(255,255,255,.12)';ctx.fillRect(sx,sy,TILE,2);
+   if(r1>0.85){ctx.font='12px serif';ctx.fillText('🌿',sx+8+r2*8,sy+20)}
+  } else if(b==='dirt'){
+   ctx.fillStyle='rgba(0,0,0,.25)';
+   ctx.fillRect(sx+r1*22,sy+r2*22,5,4);ctx.fillRect(sx+r2*20,sy+r1*20,4,4);ctx.fillRect(sx+r3*24,sy+r3*10,3,3);
+   ctx.fillStyle='rgba(255,255,255,.08)';ctx.fillRect(sx,sy,TILE,2);
+  } else if(b==='stone'||b==='coal'||b==='diamond'){
+   ctx.fillStyle='rgba(0,0,0,.3)';
+   ctx.beginPath();ctx.moveTo(sx+4,sy+10+r1*8);ctx.lineTo(sx+16,sy+14);ctx.lineTo(sx+28,sy+8+r2*8);ctx.strokeStyle='rgba(0,0,0,.35)';ctx.lineWidth=1.5;ctx.stroke();
+   ctx.fillStyle='rgba(255,255,255,.18)';ctx.fillRect(sx+5+r1*15,sy+5,6,5);ctx.fillRect(sx+18,sy+19+r2*6,5,5);
+   if(b==='coal'){ctx.fillStyle='#111';ctx.fillRect(sx+9,sy+9,6,6);ctx.fillRect(sx+20,sy+20,5,5)}
+   if(b==='diamond'){ctx.fillStyle='#a5f3fc';ctx.fillRect(sx+10,sy+10,7,7);ctx.fillStyle='#fff';ctx.fillRect(sx+11,sy+11,3,3)}
+  } else if(b==='wood'){
+   ctx.fillStyle='#5b3a1a';ctx.fillRect(sx+8,sy,16,TILE);
+   ctx.fillStyle='#3f2a12';ctx.fillRect(sx+13,sy,2,TILE);ctx.fillRect(sx+19,sy,2,TILE);
+   ctx.fillStyle='rgba(255,255,255,.15)';ctx.fillRect(sx+8,sy,2,TILE);
+   ctx.fillStyle='#14532d';ctx.beginPath();ctx.arc(sx+16,sy+6,13,0,7);ctx.fill();
+   ctx.fillStyle='#16a34a';ctx.beginPath();ctx.arc(sx+12,sy+4,8,0,7);ctx.fill();
+  } else if(b==='leaves'){
+   ctx.fillStyle='rgba(0,40,0,.4)';
+   ctx.fillRect(sx+r1*20,sy+r2*20,7,7);ctx.fillRect(sx+r2*18,sy+r1*18,6,6);
+   ctx.fillStyle='rgba(200,255,200,.25)';ctx.fillRect(sx+r3*22,sy+3,4,4);
+  } else if(b==='sand'){
+   ctx.fillStyle='rgba(150,90,0,.2)';
+   ctx.beginPath();ctx.moveTo(sx,sy+22+r1*6);ctx.quadraticCurveTo(sx+16,sy+16,sx+32,sy+22+r2*6);ctx.strokeStyle='rgba(150,90,0,.35)';ctx.stroke();
+   ctx.fillRect(sx+r1*24,sy+r2*24,3,2);
+  } else if(b==='water'){
+   let w=Math.sin(now/600+x*0.8+y*0.5)*3;
+   ctx.fillStyle='rgba(255,255,255,.3)';ctx.fillRect(sx+4+w,sy+7,10,2);ctx.fillRect(sx+16-w,sy+18,9,2);ctx.fillRect(sx+6+w,sy+26,7,1.5);
+   ctx.fillStyle='rgba(0,0,60,.25)';ctx.fillRect(sx,sy+TILE-5,TILE,5);
+  } else if(b==='snow'){
+   ctx.fillStyle='#ffffff';ctx.fillRect(sx,sy,TILE,7);
+   ctx.fillStyle='rgba(180,220,255,.7)';ctx.fillRect(sx+r1*24,sy+10+r2*14,3,3);ctx.fillRect(sx+r2*24,sy+12+r1*12,2,2);
+  } else if(b==='ice'){
+   ctx.fillStyle='rgba(255,255,255,.55)';ctx.fillRect(sx+4,sy+4,12,3);ctx.fillRect(sx+16,sy+18,10,3);
+  } else if(b==='flower'){
+   ctx.fillStyle='rgba(0,60,0,.35)';ctx.fillRect(sx+15,sy+12,2,12);
+   ctx.font='15px serif';ctx.fillText(r1>0.5?'🌸':'🌼',sx+8,sy+18);
+   if(r2>0.6){ctx.font='11px serif';ctx.fillText('🌷',sx+18,sy+28)}
+  } else if(b==='torch'){
+   ctx.fillStyle='#3f2a12';ctx.fillRect(sx+14,sy+12,4,14);
+   let fl=Math.sin(now/90+x)*2;
+   let tg=ctx.createRadialGradient(sx+16,sy+10,1,sx+16,sy+10,16);
+   tg.addColorStop(0,'#fef08a');tg.addColorStop(0.4,'#f59e0b');tg.addColorStop(1,'rgba(245,158,11,0)');
+   ctx.fillStyle=tg;ctx.beginPath();ctx.arc(sx+16,sy+10+fl,15,0,7);ctx.fill();
+   ctx.fillStyle='#fff700';ctx.beginPath();ctx.arc(sx+16,sy+10+fl,4,0,7);ctx.fill();
+  } else if(b==='brick'){
+   ctx.fillStyle='rgba(0,0,0,.35)';ctx.fillRect(sx,sy+15,TILE,2);ctx.fillRect(sx,sy+7,TILE,1.5);
+   ctx.fillRect(sx+10,sy,2,15);ctx.fillRect(sx+22,sy+15,2,17);
+   ctx.fillStyle='rgba(255,255,255,.15)';ctx.fillRect(sx,sy,TILE,2);
+  } else if(b==='glass'){
+   ctx.fillStyle='rgba(255,255,255,.5)';ctx.fillRect(sx+3,sy+3,TILE-6,2);ctx.fillRect(sx+3,sy+3,2,TILE-6);
+   ctx.strokeStyle='#7dd3fc';ctx.strokeRect(sx+1.5,sy+1.5,TILE-3,TILE-3);
+  } else if(b==='plank'){
+   ctx.fillStyle='rgba(80,40,0,.35)';for(let i=0;i<3;i++)ctx.fillRect(sx,sy+10+i*8,TILE,2);
+  }
+  // sombra de profundidade entre blocos diferentes
+  if(y+1<=H-1&&map[y+1]&&map[y+1][x]!==b){ctx.fillStyle='rgba(0,0,0,.22)';ctx.fillRect(sx,sy+TILE-4,TILE,4)}
+  // sombra de nuvem passando
+  let cloud=Math.sin((x*0.15+now/4000)+(y*0.05));
+  if(cloud>0.86){ctx.fillStyle='rgba(255,255,255,.12)';ctx.fillRect(sx,sy,TILE,TILE)}
  }
- // sombras + animais com balan├ºo realista
+ // sombras + animais com balanço realista
  animals.forEach(a=>{
   let sx=a.x-cam.x,sy=a.y-cam.y;if(sx<-60||sy<-60||sx>cv.width+60||sy>cv.height+60)return;
   ctx.fillStyle='rgba(0,0,0,.32)';ctx.beginPath();ctx.ellipse(sx+13,sy+27,11,4.5,0,0,7);ctx.fill();
   let bob=Math.sin(now/350+a.x)*2;
   let big=(a.id==='elefante'||a.id==='baleia'||a.id==='girafa');
   ctx.font=(big?'30px':'24px')+' serif';ctx.fillText(a.e,sx,sy+24+bob);
-  if(a.pet){ctx.font='bold 11px sans-serif';ctx.fillStyle='#fff';ctx.strokeStyle='#000';ctx.lineWidth=3;let label='­ƒÆÜ '+a.petName+' Nv'+a.level;ctx.strokeText(label,sx-10,sy-8+bob);ctx.fillText(label,sx-10,sy-8+bob);ctx.fillStyle='#000';if(a.sit){ctx.font='12px serif';ctx.fillText('­ƒ¬æ',sx+20,sy+6)}}else if(a.tame){ctx.font='12px serif';ctx.fillText('­ƒÆÜ',sx+18,sy+6)}if(a.hostil&&!a.pet){ctx.font='11px serif';ctx.fillText('­ƒÿí',sx-2,sy+4)}});
+  if(a.pet){ctx.font='bold 11px sans-serif';ctx.fillStyle='#fff';ctx.strokeStyle='#000';ctx.lineWidth=3;let label='💚 '+a.petName+' Nv'+a.level;ctx.strokeText(label,sx-10,sy-8+bob);ctx.fillText(label,sx-10,sy-8+bob);ctx.fillStyle='#000';if(a.sit){ctx.font='12px serif';ctx.fillText('🪑',sx+20,sy+6)}}else if(a.tame){ctx.font='12px serif';ctx.fillText('💚',sx+18,sy+6)}if(a.hostil&&!a.pet){ctx.font='11px serif';ctx.fillText('😡',sx-2,sy+4)}});
  // player com sombra realista
  let px=player.x-cam.x,py=player.y-cam.y;
  ctx.fillStyle='rgba(0,0,0,.4)';ctx.beginPath();ctx.ellipse(px+14,py+29,12,5,0,0,7);ctx.fill();
- let skinE=(SKINS[player.skin]||SKINS.steve).e;
- let walk=Math.sin(now/180)*(Math.abs((keys['w']||keys['a']||keys['s']||keys['d'])?1:0))*2;
- if(player.skin==='duck'){
-  ctx.font='32px serif';ctx.fillText('­ƒªå',px-2,py+28+walk);
-  ctx.font='12px serif';ctx.fillText('Ô£¿',px+20,py+6);
- } else {
-  ctx.font='28px serif';ctx.fillText(creative?skinE:'ÔøÅ´©Å'+skinE,px-2,py+28+walk);
- }
+  let walk=Math.sin(now/180)*(Math.abs((keys['w']||keys['a']||keys['s']||keys['d'])?1:0))*2;
+ ctx.font='28px serif';ctx.fillText(creative?'\U0001F9D9\U0001F3FB\u200D\u2640\uFE0F':'\u26CF\U0001F467\U0001F3FB',px-2,py+28+walk);
+ ctx.font='bold 11px sans-serif';ctx.fillStyle='#fff';ctx.strokeStyle='#000';ctx.lineWidth=3;ctx.strokeText('Livia',px-2,py-16);ctx.fillText('Livia',px-2,py-16);ctx.fillStyle='#000';
+
  ctx.fillStyle='#000a';ctx.fillRect(px-2,py-12,36,6);ctx.fillStyle=player.hp>5?'#22c55e':'#ef4444';ctx.fillRect(px-2,py-12,36*Math.max(0,player.hp)/10,6);
- if(fly&&creative){ctx.font='14px serif';ctx.fillText('­ƒòè´©Å',px+20,py+4)}
- particles.forEach(p=>{ctx.fillStyle=p.c;ctx.fillRect(p.x-cam.x,p.y-cam.y,4,4)});
- // noite estilo Minecraft: escurece simples
- if(isNight){ctx.fillStyle='rgba(0,0,25,.42)';ctx.fillRect(0,0,cv.width,cv.height)}
- else if(time>17||time<6.5){ctx.fillStyle='rgba(255,130,30,.12)';ctx.fillRect(0,0,cv.width,cv.height)}
+ if(fly&&creative){ctx.font='14px serif';ctx.fillText('🕊️',px+20,py+4)}
+ particles.forEach(p=>{ctx.fillStyle=p.c;ctx.globalAlpha=Math.max(0,p.l/30);ctx.fillRect(p.x-cam.x,p.y-cam.y,4,4);ctx.globalAlpha=1});
+ // vaga-lumes à noite
+ if(isNight){for(let i=0;i<14;i++){let fx=(hash(i,day)*cv.width+now/40*(1+i*0.1))%cv.width;let fy=(hash(day,i)*cv.height+Math.sin(now/800+i)*20+cv.height)%cv.height;ctx.fillStyle='#fef08a';ctx.globalAlpha=0.7+Math.sin(now/200+i)*0.3;ctx.fillRect(fx,fy,2,2);ctx.globalAlpha=1}}
+ // iluminação realista dia/noite + pôr-do-sol
+ let sc=sunColor(time);
+ if(sc.warm>0){ctx.fillStyle=`rgba(255,120,30,${sc.warm*0.22})`;ctx.fillRect(0,0,cv.width,cv.height)}
+ if(sc.dark>0){ctx.fillStyle=`rgba(2,6,30,${sc.dark})`;ctx.fillRect(0,0,cv.width,cv.height)}
+ // luz das tochas à noite
+ if(sc.dark>0.15){
+  for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++) if(map[y][x]==='torch'){
+   let sx=x*TILE-cam.x+16,sy=y*TILE-cam.y+10;
+   let tg=ctx.createRadialGradient(sx,sy,2,sx,sy,90);
+   tg.addColorStop(0,'rgba(255,220,100,.5)');tg.addColorStop(1,'rgba(255,220,100,0)');
+   ctx.fillStyle=tg;ctx.beginPath();ctx.arc(sx,sy,90,0,7);ctx.fill();
+  }
+  // luz em volta do jogador
+  let lx=px+14,ly=py+10;
+  let pg=ctx.createRadialGradient(lx,ly,10,lx,ly,140);
+  pg.addColorStop(0,'rgba(255,240,180,.28)');pg.addColorStop(1,'rgba(255,240,180,0)');
+  ctx.fillStyle=pg;ctx.beginPath();ctx.arc(lx,ly,140,0,7);ctx.fill();
+ }
+ // vinheta
+ let v=ctx.createRadialGradient(cv.width/2,cv.height/2,Math.min(cv.width,cv.height)/3,cv.width/2,cv.height/2,Math.max(cv.width,cv.height)/1.2);
+ v.addColorStop(0,'rgba(0,0,0,0)');v.addColorStop(1,'rgba(0,0,0,.38)');
+ ctx.fillStyle=v;ctx.fillRect(0,0,cv.width,cv.height);
 }
 
 // botoes
@@ -513,22 +532,22 @@ document.getElementById('creativeBtn').onclick=toggleCreative;
 document.getElementById('invBtn').onclick=toggleInv;
 document.getElementById('flyChk').onchange=e=>fly=e.target.checked;
 document.getElementById('godChk').onchange=e=>god=e.target.checked;
-document.getElementById('btnDay').onclick=()=>{time=12;msg('ÔÿÇ´©Å Virou dia!')};
-document.getElementById('btnNight').onclick=()=>{time=22;msg('­ƒîÖ Virou noite! Cuidado com predadores ­ƒÿ▒')};
-document.getElementById('btnHeal').onclick=()=>{player.hp=10;player.food=10;msg('­ƒÆû Vida cheia!')};
-document.getElementById('btnClear').onclick=()=>{animals=[];msg('­ƒùæ´©Å Animais removidos')};
-document.getElementById('btnSave').onclick=()=>{localStorage.setItem('mc_save',JSON.stringify({map,player,day,time,found:[...found],pets:animals.filter(a=>a.pet)}));msg('­ƒÆ¥ Mundo + pets salvos!')};
-document.getElementById('btnLoad').onclick=()=>{let s=localStorage.getItem('mc_save');if(!s){msg('ÔÜá´©Å Nenhum save!');return}let d=JSON.parse(s);map=d.map;player=d.player;day=d.day;time=d.time;found.clear();d.found.forEach(f=>found.add(f));if(d.pets){d.pets.forEach(p=>{if(!animals.find(a=>a.pet&&a.petName===p.petName))animals.push(p)})}renderDex();renderPets();document.getElementById('foundN').textContent=found.size;msg('­ƒôé Mundo + pets carregados!')};
+document.getElementById('btnDay').onclick=()=>{time=12;msg('☀️ Virou dia!')};
+document.getElementById('btnNight').onclick=()=>{time=22;msg('🌙 Virou noite! Cuidado com predadores 😱')};
+document.getElementById('btnHeal').onclick=()=>{player.hp=10;player.food=10;msg('💖 Vida cheia!')};
+document.getElementById('btnClear').onclick=()=>{animals=[];msg('🗑️ Animais removidos')};
+document.getElementById('btnSave').onclick=()=>{localStorage.setItem('mc_save',JSON.stringify({map,player,day,time,found:[...found],pets:animals.filter(a=>a.pet)}));msg('💾 Mundo + pets salvos!')};
+document.getElementById('btnLoad').onclick=()=>{let s=localStorage.getItem('mc_save');if(!s){msg('⚠️ Nenhum save!');return}let d=JSON.parse(s);map=d.map;player=d.player;day=d.day;time=d.time;found.clear();d.found.forEach(f=>found.add(f));if(d.pets){d.pets.forEach(p=>{if(!animals.find(a=>a.pet&&a.petName===p.petName))animals.push(p)})}renderDex();renderPets();document.getElementById('foundN').textContent=found.size;msg('📂 Mundo + pets carregados!')};
 document.getElementById('btnCallPets').onclick=callPets;
 document.getElementById('btnHealPets').onclick=healPets;
-document.getElementById('btnNew').onclick=()=>{genWorld();msg('­ƒî▒ Novo mundo gerado!')};
-document.getElementById('btnRain').onclick=()=>{for(let i=0;i<20;i++)spawnRandom(true);msg('­ƒîº´©Å Chuva de animais!! ­ƒÄë')};
+document.getElementById('btnNew').onclick=()=>{genWorld();msg('🌱 Novo mundo gerado!')};
+document.getElementById('btnRain').onclick=()=>{for(let i=0;i<20;i++)spawnRandom(true);msg('🌧️ Chuva de animais!! 🎉')};
 document.getElementById('menuBtn').onclick=()=>document.getElementById('sidebar').classList.toggle('open');
-document.getElementById('skinDuck').onclick=()=>setSkin('duck');
-document.getElementById('skinSteve').onclick=()=>setSkin('steve');
-document.getElementById('skinWitch').onclick=()=>setSkin('witch');
 
-genWorld();setSkin('duck');renderHot();renderCreative();renderDex();renderPets();msg('­ƒîì Bem-vinda Maria Luiza! Clique nos animais para ter pets ­ƒÉ¥­ƒªå!');loop();
+
+
+
+genWorld();renderHot();renderCreative();renderDex();renderPets();msg('Bem-vinda Livia! Mundo realista pronto!');loop();
 </script>
 </body>
 </html>

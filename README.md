@@ -1,6 +1,6 @@
-# 🌍 MiniCraft Mundo Animal - Maria Luiza 4A
+# 🌍 MiniCraft Realista - Livia 4A
 
-Jogo estilo Minecraft 2D com **todos os animais do mundo** e **modo criativo**!
+Jogo estilo Minecraft 2D realista com **todos os animais do mundo**, **pets** e **modo criativo**! Personagem: Livia.
 
 ## 🎮 Jogar
 - Online (GitHub Pages): ative o Pages e acesse o link
