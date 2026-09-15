@@ -78,6 +78,7 @@ kbd{background:#000;border:1px solid #555;border-radius:4px;padding:0 5px;font-s
 <b>Skin pato:</b> <kbd>T</kbd> ou botão 🦆<br>
 <b>Inventário criativo:</b> <kbd>E</kbd><br>
 <b>Domar/interagir:</b> clique no animal<br>
+<b>Pet:</b> clique p/ adotar, clique de novo p/ sentar/seguir <kbd>P</kbd> chama pets<br>
 <b>No celular:</b> toque para andar/quebrar
 </div>
 </div>
@@ -92,6 +93,15 @@ kbd{background:#000;border:1px solid #555;border-radius:4px;padding:0 5px;font-s
 <button class="btn alt" id="btnSave">💾 Salvar</button>
 <button class="btn alt" id="btnLoad">📂 Carregar</button>
 <button class="btn" id="btnNew">🌱 Novo mundo</button>
+</div>
+</div>
+<div class="card">
+<h2>🐾 Animais de Estimação (<span id="petN">0</span>)</h2>
+<div style="font-size:12px;margin-bottom:6px">Clique em qualquer animal para adotar! Pets te seguem, te protegem e ganham nomes fofos. 🐶🐱🦆</div>
+<div id="petList" style="font-size:13px;display:flex;flex-direction:column;gap:6px;max-height:220px;overflow:auto"></div>
+<div class="row" style="margin-top:6px">
+<button class="btn" id="btnCallPets">📣 Chamar (P)</button>
+<button class="btn warn" id="btnHealPets">💖 Curar pets</button>
 </div>
 </div>
 <div class="card" id="creativePanel">
@@ -227,9 +237,39 @@ function spawnRandom(near=true){
 }
 function addAnimal(id,tx,ty){
  const d=ANIMALS.find(a=>a.id===id);
- animals.push({id:d.id,e:d.e,n:d.n,hostil:d.hostil,drop:d.drop,x:tx*TILE,y:ty*TILE,vx:0,vy:0,t:Math.random()*5,hp:5,tame:false});
+ animals.push({id:d.id,e:d.e,n:d.n,hostil:d.hostil,drop:d.drop,x:tx*TILE,y:ty*TILE,vx:0,vy:0,t:Math.random()*5,hp:5,maxhp:5,tame:false,pet:false,petName:'',sit:false,love:0,level:1});
  discover(id);
 }
+// ===== SISTEMA DE PETS 🐾 =====
+const PET_NAMES=['Bolinha','Floquinho','Pipoca','Mel','Thor','Luna','Toby','Nina','Max','Bella','Simba','Lola','Paçoca','Cookie','Ted','Mimi','Rocky','Sol','Estrela','Fred'];
+function adoptPet(a){
+ a.pet=true;a.tame=true;a.hostil=false;a.sit=false;a.love=1;a.level=1;a.maxhp=10;a.hp=a.maxhp;
+ a.petName=(PET_NAMES[Math.random()*PET_NAMES.length|0])+' '+a.e;
+ puff(a.x+16,a.y+16,'#ff69b4');puff(a.x+16,a.y+16,'#facc15');
+ msg('🐾 Novo pet: '+a.petName+' ('+a.n+')! Ele vai te seguir e proteger! 💚');snd(880);setTimeout(()=>snd(990),150);
+ renderPets();
+}
+function renderPets(){
+ let pets=animals.filter(a=>a.pet);
+ document.getElementById('petN').textContent=pets.length;
+ let el=document.getElementById('petList');
+ if(!pets.length){el.innerHTML='<span style="color:#9ca3af">Nenhum pet ainda... clique em um animal! 🥺</span>';return}
+ el.innerHTML='';
+ pets.forEach((p,i)=>{
+  let d=document.createElement('div');
+  d.style.cssText='background:#0f172a;border:1px solid #334155;border-radius:8px;padding:6px;display:flex;gap:6px;align-items:center;justify-content:space-between';
+  d.innerHTML=`<span>${p.e} <b>${p.petName}</b><br><small>Nv ${p.level} ❤️${Math.ceil(p.hp)}/${p.maxhp} ${p.sit?'🪑 sentado':'🚶 seguindo'}</small></span>`;
+  let btns=document.createElement('span');
+  btns.innerHTML=`<button title="seguir/sentar" style="font-size:16px;cursor:pointer">${p.sit?'🚶':'🪑'}</button> <button title="renomear" style="font-size:16px;cursor:pointer">✏️</button> <button title="soltar" style="font-size:16px;cursor:pointer">❌</button>`;
+  let [bSit,bRen,bRel]=btns.querySelectorAll('button');
+  bSit.onclick=()=>{p.sit=!p.sit;msg(p.sit?`🪑 ${p.petName} sentou!`:`🚶 ${p.petName} vai te seguir!`);renderPets()};
+  bRen.onclick=()=>{let n=prompt('Novo nome para seu pet '+p.e+' ('+p.n+'):',p.petName);if(n&&n.trim()){p.petName=n.trim().slice(0,20);renderPets();msg('✏️ Pet agora se chama '+p.petName)}};
+  bRel.onclick=()=>{p.pet=false;p.sit=false;msg('😢 '+p.petName+' voltou pra natureza...');renderPets()};
+  d.appendChild(btns);el.appendChild(d);
+ });
+}
+function callPets(){let n=0;animals.forEach(a=>{if(a.pet){a.x=player.x+(Math.random()*80-40);a.y=player.y+(Math.random()*80-40);a.sit=false;n++}});msg(n?`📣 ${n} pet(s) vieram até você! 🐾`:'⚠️ Você ainda não tem pets!');renderPets();snd(760)}
+function healPets(){animals.forEach(a=>{if(a.pet){a.hp=a.maxhp;a.love++;if(a.love>=3){a.love=0;a.level++;a.maxhp+=2;a.hp=a.maxhp;msg('⬆️ '+a.petName+' subiu para Nv '+a.level+'! 🎉')}}});msg('💖 Pets curados!');renderPets()}
 const found=new Set();
 function discover(id){if(!found.has(id)){found.add(id);msg('🎉 Novo animal: '+ANIMALS.find(a=>a.id===id).n+' '+ANIMALS.find(a=>a.id===id).e);renderDex();snd(660)}document.getElementById('foundN').textContent=found.size}
 function renderDex(){document.getElementById('dex').innerHTML=ANIMALS.map(a=>found.has(a.id)?`✅ ${a.e} ${a.n}`:`❔ ???`).join('<br>')}
@@ -242,6 +282,7 @@ addEventListener('keydown',e=>{
  if(e.key.toLowerCase()==='c') toggleCreative();
  if(e.key.toLowerCase()==='e') toggleInv();
  if(e.key.toLowerCase()==='t'){player.skin=player.skin==='duck'?'steve':player.skin==='steve'?'witch':'duck';setSkin(player.skin)}
+ if(e.key.toLowerCase()==='p') callPets();
  if(e.key.toLowerCase()===' '&&fly) e.preventDefault();
 });
 addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
@@ -278,10 +319,17 @@ function handleClick(e){
  renderHot();
 }
 function interact(a){
- if(a.hostil && !creative){player.hp-=1;msg('😱 O '+a.n+' te atacou!');snd(150);if(player.hp<=0 && !god){respawn()}return}
- if(!a.tame){a.tame=true;msg('💚 Você fez amizade com '+a.n+' '+a.e);snd(880)}
- else{msg(a.e+' '+a.n+' diz oi! '+(a.drop||'')); if(!creative){inv[a.drop]=inv[a.drop]||0; } snd(520)}
- renderHot();
+ if(!a.pet){
+  // adotar qualquer animal, até predador vira bonzinho!
+  if(a.hostil && !creative && Math.random()<0.3){player.hp-=1;msg('😱 O '+a.n+' te mordeu! Clique de novo com carinho pra domar!');snd(150);if(player.hp<=0 && !god){respawn()}return}
+  adoptPet(a);return;
+ }
+ // já é pet: carinho = cura + alterna sentar/seguir a cada 2 cliques? aqui: carinho + mostra status
+ a.love++;a.hp=Math.min(a.maxhp,a.hp+1);
+ if(a.love>=4){a.love=0;a.level++;a.maxhp+=2;a.hp=a.maxhp;msg('⬆️ '+a.petName+' subiu para Nv '+a.level+'! '+a.e+'🎉');snd(990)}
+ else{msg('💚 '+a.petName+' ('+a.n+') te ama! '+a.e+' Nv '+a.level);snd(520)}
+ puff(a.x+16,a.y+8,'#ff69b4');
+ renderPets();renderHot();
 }
 function respawn(){msg('💀 Você renasceu!');player.hp=10;player.food=10;player.x=W/2*TILE;player.y=H/2*TILE}
 
@@ -329,8 +377,18 @@ function loop(){
  animals.forEach(a=>{
   a.t-=dt;
   if(a.t<=0){a.t=1+Math.random()*3;let ang=Math.random()*Math.PI*2;a.vx=Math.cos(ang)*30;a.vy=Math.sin(ang)*30;if(a.id==='peixe'||a.id==='tubarao'||a.id==='golfinho'||a.id==='baleia'||a.id==='polvo'){} }
-  let dxp=(player.x-a.x),dyp=(player.y-a.y),d=Math.hypot(dxp,dyp);
-  if(a.hostil&&d<220&&!creative){a.vx=dxp/d*70;a.vy=dyp/d*70;if(d<30&&(!god)){player.hp-=dt*2;if(player.hp<=0)respawn()}}
+  let dxp=(player.x-a.x),dyp=(player.y-a.y),d=Math.hypot(dxp,dyp)||1;
+  if(a.pet){
+   // pet: regenera, teleporta se longe, segue se não sentado, protege dono
+   a.hp=Math.min(a.maxhp,a.hp+dt*0.5);
+   if(d>700){a.x=player.x+(Math.random()*60-30);a.y=player.y+(Math.random()*60-30)}
+   else if(!a.sit&&d>60){a.vx=dxp/d*110;a.vy=dyp/d*110}
+   else if(a.sit){a.vx*=0.9;a.vy*=0.9}
+   // protege: ataca predador perto do dono
+   let foe=animals.find(o=>!o.pet&&o.hostil&&Math.hypot(o.x-player.x,o.y-player.y)<200);
+   if(foe){let fdx=foe.x-a.x,fdy=foe.y-a.y,fd=Math.hypot(fdx,fdy)||1;a.vx=fdx/fd*130;a.vy=fdy/fd*130;if(fd<30){foe.hp-=dt*5;puff(foe.x+16,foe.y+16,'#ef4444');if(foe.hp<=0){animals.splice(animals.indexOf(foe),1);msg('🦸 '+a.petName+' derrotou o predador! +XP');a.level++;a.maxhp+=1;a.hp=a.maxhp;renderPets()}}}
+  }
+  else if(a.hostil&&d<220&&!creative){a.vx=dxp/d*70;a.vy=dyp/d*70;if(d<30&&(!god)){player.hp-=dt*2;if(player.hp<=0)respawn()}}
   else if(a.tame&&d>80){a.vx=dxp/d*60;a.vy=dyp/d*60}
   else if(!a.hostil&&d<90&&(a.id==='coelho'||a.id==='veado'||a.id==='ovelha')){a.vx=-dxp/d*60;a.vy=-dyp/d*60}
   a.x+=a.vx*dt;a.y+=a.vy*dt;
@@ -367,7 +425,7 @@ function draw(isNight){
   ctx.strokeStyle='rgba(0,0,0,.08)';ctx.strokeRect(sx+.5,sy+.5,TILE-1,TILE-1);
  }
  // animais
- animals.forEach(a=>{let sx=a.x-cam.x,sy=a.y-cam.y;if(sx<-40||sy<-40||sx>cv.width+40||sy>cv.height+40)return;ctx.font=(a.id==='elefante'||a.id==='baleia'||a.id==='girafa'?'30px':'24px')+' serif';ctx.fillText(a.e,sx,sy+24);if(a.tame){ctx.font='12px serif';ctx.fillText('💚',sx+18,sy+6)}if(a.hostil){ctx.font='11px serif';ctx.fillText('😡',sx-2,sy+4)}});
+ animals.forEach(a=>{let sx=a.x-cam.x,sy=a.y-cam.y;if(sx<-60||sy<-60||sx>cv.width+60||sy>cv.height+60)return;ctx.font=(a.id==='elefante'||a.id==='baleia'||a.id==='girafa'?'30px':'24px')+' serif';ctx.fillText(a.e,sx,sy+24);if(a.pet){ctx.font='bold 11px sans-serif';ctx.fillStyle='#fff';ctx.strokeStyle='#000';ctx.lineWidth=3;let label='💚 '+a.petName+' Nv'+a.level;ctx.strokeText(label,sx-10,sy-8);ctx.fillText(label,sx-10,sy-8);ctx.fillStyle='#000';if(a.sit){ctx.font='12px serif';ctx.fillText('🪑',sx+20,sy+6)}}else if(a.tame){ctx.font='12px serif';ctx.fillText('💚',sx+18,sy+6)}if(a.hostil&&!a.pet){ctx.font='11px serif';ctx.fillText('😡',sx-2,sy+4)}});
  // player
  let px=player.x-cam.x,py=player.y-cam.y;
  let skinE=(SKINS[player.skin]||SKINS.steve).e;
@@ -396,8 +454,10 @@ document.getElementById('btnDay').onclick=()=>{time=12;msg('☀️ Virou dia!')}
 document.getElementById('btnNight').onclick=()=>{time=22;msg('🌙 Virou noite! Cuidado com predadores 😱')};
 document.getElementById('btnHeal').onclick=()=>{player.hp=10;player.food=10;msg('💖 Vida cheia!')};
 document.getElementById('btnClear').onclick=()=>{animals=[];msg('🗑️ Animais removidos')};
-document.getElementById('btnSave').onclick=()=>{localStorage.setItem('mc_save',JSON.stringify({map,player,day,time,found:[...found]}));msg('💾 Mundo salvo!')};
-document.getElementById('btnLoad').onclick=()=>{let s=localStorage.getItem('mc_save');if(!s){msg('⚠️ Nenhum save!');return}let d=JSON.parse(s);map=d.map;player=d.player;day=d.day;time=d.time;found.clear();d.found.forEach(f=>found.add(f));renderDex();document.getElementById('foundN').textContent=found.size;msg('📂 Mundo carregado!')};
+document.getElementById('btnSave').onclick=()=>{localStorage.setItem('mc_save',JSON.stringify({map,player,day,time,found:[...found],pets:animals.filter(a=>a.pet)}));msg('💾 Mundo + pets salvos!')};
+document.getElementById('btnLoad').onclick=()=>{let s=localStorage.getItem('mc_save');if(!s){msg('⚠️ Nenhum save!');return}let d=JSON.parse(s);map=d.map;player=d.player;day=d.day;time=d.time;found.clear();d.found.forEach(f=>found.add(f));if(d.pets){d.pets.forEach(p=>{if(!animals.find(a=>a.pet&&a.petName===p.petName))animals.push(p)})}renderDex();renderPets();document.getElementById('foundN').textContent=found.size;msg('📂 Mundo + pets carregados!')};
+document.getElementById('btnCallPets').onclick=callPets;
+document.getElementById('btnHealPets').onclick=healPets;
 document.getElementById('btnNew').onclick=()=>{genWorld();msg('🌱 Novo mundo gerado!')};
 document.getElementById('btnRain').onclick=()=>{for(let i=0;i<20;i++)spawnRandom(true);msg('🌧️ Chuva de animais!! 🎉')};
 document.getElementById('menuBtn').onclick=()=>document.getElementById('sidebar').classList.toggle('open');
@@ -405,7 +465,7 @@ document.getElementById('skinDuck').onclick=()=>setSkin('duck');
 document.getElementById('skinSteve').onclick=()=>setSkin('steve');
 document.getElementById('skinWitch').onclick=()=>setSkin('witch');
 
-genWorld();setSkin('duck');renderHot();renderCreative();renderDex();msg('🌍 Bem-vinda Maria Luiza! Você é um patinho 🦆! Aperte C para o CRIATIVO 🎨');loop();
+genWorld();setSkin('duck');renderHot();renderCreative();renderDex();renderPets();msg('🌍 Bem-vinda Maria Luiza! Clique nos animais para ter pets 🐾🦆!');loop();
 </script>
 </body>
 </html>
