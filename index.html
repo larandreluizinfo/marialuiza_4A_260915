@@ -1,258 +1,534 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MiniCraft 3D 1ª Pessoa - Maria Luiza 4A</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.158.0/three.min.js"></script>
+<title>MiniCraft Mundo Animal - Maria Luiza 4A</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
-body{background:#000;color:#fff;overflow:hidden}
+body{background:#0b1020;color:#fff;overflow:hidden}
 #wrap{display:flex;height:100vh}
-#game-area{flex:1;position:relative}
-#c3d{width:100%;height:100%;display:block}
-#cross{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:24px;pointer-events:none;text-shadow:0 0 4px #000}
-#hud{position:absolute;top:0;left:0;right:0;padding:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.pill{background:rgba(0,0,0,.65);border:1px solid #ffffff44;border-radius:999px;padding:6px 12px;font-size:13px}
-button.pill{cursor:pointer;color:#fff}button.pill:hover{background:#22c55e}
-#hotbar{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;background:rgba(0,0,0,.65);padding:8px;border-radius:12px;border:2px solid #ffffff44}
-.slot{width:50px;height:50px;background:#222;border:2px solid #555;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:22px;cursor:pointer;position:relative}
+#game-area{flex:1;position:relative;background:#000}
+canvas{display:block;width:100%;height:100%;image-rendering:pixelated;cursor:crosshair}
+#hud{position:absolute;top:0;left:0;right:0;padding:8px;display:flex;gap:8px;align-items:center;pointer-events:none}
+.pill{background:rgba(0,0,0,.6);border:1px solid #ffffff33;border-radius:999px;padding:6px 12px;font-size:14px;pointer-events:auto}
+button.pill{cursor:pointer;color:#fff}
+button.pill:hover{background:#22c55e}
+#hotbar{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;background:rgba(0,0,0,.6);padding:8px;border-radius:12px;border:2px solid #ffffff33}
+.slot{width:52px;height:52px;background:#222;border:2px solid #555;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:24px;cursor:pointer;position:relative;user-select:none}
 .slot.sel{border-color:#facc15;box-shadow:0 0 10px #facc15}
-.slot small{font-size:9px;color:#ddd}.slot span.n{position:absolute;bottom:1px;right:4px;font-size:11px;background:#000a;padding:0 4px;border-radius:6px}
-#sidebar{width:320px;background:#111827;border-left:2px solid #22c55e;display:flex;flex-direction:column;padding:12px;gap:10px;overflow-y:auto;font-size:14px}
-#sidebar h1{font-size:19px;color:#4ade80}#sidebar h2{font-size:14px;color:#facc15;margin-top:4px}
+.slot small{font-size:10px;color:#ddd}
+.slot span.n{position:absolute;bottom:1px;right:4px;font-size:12px;background:#000a;padding:0 4px;border-radius:6px}
+#sidebar{width:320px;background:#111827;border-left:2px solid #22c55e;display:flex;flex-direction:column;padding:12px;gap:10px;overflow-y:auto}
+#sidebar h1{font-size:20px;color:#4ade80}
+#sidebar h2{font-size:15px;color:#facc15;margin-top:6px}
 .card{background:#1f2937;border-radius:10px;padding:10px;border:1px solid #374151}
 .row{display:flex;gap:6px;flex-wrap:wrap}
-.btn{background:#22c55e;border:none;color:#04210f;font-weight:700;padding:8px 10px;border-radius:8px;cursor:pointer;font-size:13px}
+.btn{background:#22c55e;border:none;color:#04210f;font-weight:700;padding:8px 10px;border-radius:8px;cursor:pointer}
 .btn.alt{background:#38bdf8}.btn.warn{background:#f59e0b}.btn.red{background:#ef4444;color:#fff}
-.egg{font-size:20px;background:#0f172a;border:1px solid #334155;border-radius:8px;padding:4px 6px;cursor:pointer;text-align:center}
+.btn:hover{filter:brightness(1.15)}
+#creativePanel{display:none;max-height:38vh;overflow:auto}
+.egg{font-size:22px;background:#0f172a;border:1px solid #334155;border-radius:8px;padding:4px 6px;cursor:pointer;text-align:center}
+.egg:hover{border-color:#facc15;transform:scale(1.1)}
 .egg small{display:block;font-size:9px;color:#cbd5e1}
-#msg{position:absolute;top:52px;left:50%;transform:translateX(-50%);background:#facc15;color:#111;padding:6px 14px;border-radius:999px;font-weight:700;display:none;z-index:5}
-#hand{position:absolute;bottom:20px;right:24px;font-size:56px;pointer-events:none;filter:drop-shadow(0 4px 4px #000)}
-#play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7);z-index:10;flex-direction:column;gap:12px;text-align:center;padding:20px}
-#play button{font-size:20px;padding:14px 28px}
+#help{font-size:13px;line-height:1.5;color:#d1d5db}
 kbd{background:#000;border:1px solid #555;border-radius:4px;padding:0 5px;font-size:12px}
-@media(max-width:800px){#sidebar{position:absolute;right:0;top:0;bottom:0;z-index:11;transform:translateX(100%);transition:.3s}#sidebar.open{transform:none}}
+#msg{position:absolute;top:52px;left:50%;transform:translateX(-50%);background:#facc15;color:#111;padding:6px 14px;border-radius:999px;font-weight:700;display:none}
+#hearts{font-size:18px}
+@media(max-width:800px){#sidebar{position:absolute;right:0;top:0;bottom:0;z-index:10;transform:translateX(100%);transition:.3s}#sidebar.open{transform:none}#menuBtn{display:block!important}}
+#menuBtn{display:none;position:absolute;top:50px;right:10px;z-index:11}
 </style>
 </head>
 <body>
 <div id="wrap">
 <div id="game-area">
-<canvas id="c3d"></canvas>
-<div id="cross">➕</div>
+<canvas id="cv"></canvas>
 <div id="hud">
-<span class="pill">⛏️ MiniCraft 3D 1ª Pessoa</span>
-<span class="pill" id="modePill">� survival SOBREVIVÊNCIA</span>
-<span class="pill" id="clock">☀️ Dia 1</span>
-<span class="pill" id="hearts">❤️❤️❤️❤️❤️</span>
-<button class="pill" id="creativeBtn">🎨 CRIATIVO (C)</button>
-<button class="pill" id="invBtn">🎒 (E)</button>
+<span class="pill">ÔøÅ´©Å MiniCraft Mundo Animal</span>
+<span class="pill" id="modePill">´┐¢ survival: SOBREVIV├èNCIA</span>
+<span class="pill" id="clock">ÔÿÇ´©Å Dia 1 - 12:00</span>
+<span class="pill" id="hearts">ÔØñ´©ÅÔØñ´©ÅÔØñ´©ÅÔØñ´©ÅÔØñ´©Å ­ƒìù­ƒìù­ƒìù­ƒìù­ƒìù</span>
+<button class="pill" id="creativeBtn">­ƒÄ¿ CRIATIVO: OFF (C)</button>
+<button class="pill" id="invBtn">­ƒÄÆ Invent├írio (E)</button>
 </div>
+<button class="pill" id="menuBtn">Ôÿ░</button>
 <div id="msg"></div>
-<div id="hand">🦆</div>
 <div id="hotbar"></div>
-<div id="play"><h1>🦆 MiniCraft 3D 1ª Pessoa</h1><p>Clique para jogar com mouse + WASD<br>Quebrar: clique esquerdo | Colocar: botão direito<br>C: criativo | E: inventário | T: skin pato | P: chamar pets</p><button class="btn" id="playBtn">▶️ JOGAR</button></div>
 </div>
 <div id="sidebar">
-<h1>🌍 MiniCraft 3D</h1>
-<div class="card"><b>👧 Maria Luiza - 4A</b><br><span style="font-size:12px">Mundo 3D voxel em primeira pessoa com todos os animais!</span></div>
-<div class="card"><h2>🦆 Skin (mão 1ª pessoa)</h2><div class="row"><button class="btn alt" id="skinSteve">🧑</button><button class="btn" id="skinDuck">🦆 Pato</button><button class="btn warn" id="skinWitch">🧙</button></div><div style="font-size:12px">Atual: <b id="skinName">🦆 Pato</b> (T troca)</div></div>
-<div class="card"><h2>🎮 Controles 3D</h2><div style="font-size:12px"><b>WASD</b> andar | <b>Mouse</b> olhar | <b>Espaço</b> pular/voar | <b>Shift</b> correr/descer<br>Clique esq quebra | direito coloca | <kbd>1-9</kbd> blocos | <kbd>C</kbd> criativo | <kbd>E</kbd> painel | <kbd>P</kbd> pets | <kbd>T</kbd> pato</div>
-<div class="row" style="margin-top:6px"><button class="btn" id="btnDay">☀️ Dia</button><button class="btn alt" id="btnNight">🌙 Noite</button><button class="btn warn" id="btnHeal">💖 Curar</button></div>
-<div class="row" style="margin-top:6px"><button class="btn alt" id="btnSave">💾 Salvar</button><button class="btn alt" id="btnLoad">📂 Carregar</button><button class="btn" id="btnNew">🌱 Novo</button></div></div>
-<div class="card" id="creativePanel" style="display:none"><h2>🎨 Criativo</h2><div class="row" id="blockList"></div><h2>🥚 Spawnar animal</h2><div class="row" id="eggList" style="max-height:180px;overflow:auto"></div><label><input type="checkbox" id="flyChk"> 🕊️ Voar</label> <label><input type="checkbox" id="godChk" checked> 🛡️ Deus</label><br><button class="btn" id="btnRain">🌧️ Chuva de animais!</button></div>
-<div class="card"><h2>🐾 Pets (<span id="petN">0</span>)</h2><div style="font-size:11px">Mire + clique esquerdo no animal para adotar!</div><div id="petList" style="display:flex;flex-direction:column;gap:6px;max-height:180px;overflow:auto;font-size:12px"></div><div class="row" style="margin-top:6px"><button class="btn" id="btnCallPets">📣 Chamar (P)</button><button class="btn warn" id="btnHealPets">💖 Curar</button></div></div>
-<div class="card"><h2>📖 Bichos (<span id="foundN">0</span>/<span id="totalN">0</span>)</h2><div id="dex" style="font-size:12px;max-height:160px;overflow:auto"></div></div>
+<h1>­ƒîì MiniCraft Mundo Animal</h1>
+<div class="card"><b>­ƒæº Feito por Maria Luiza - 4A</b><br><span style="font-size:13px">Explore, minere, construa e encontre TODOS os animais do mundo!</span></div>
+<div class="card">
+<h2>­ƒªå Skin de Pato</h2>
+<div class="row" id="skinRow">
+<button class="btn alt" id="skinSteve">­ƒºæ Steve</button>
+<button class="btn" id="skinDuck">­ƒªå Pato</button>
+<button class="btn warn" id="skinWitch">­ƒºÖ Bruxo</button>
+</div>
+<div style="font-size:13px;margin-top:6px">Skin atual: <b id="skinName">­ƒºæ Steve</b><br>Tecla <kbd>T</kbd> troca rapidinho!</div>
+</div>
+<div class="card">
+<h2>­ƒÄ« Como jogar</h2>
+<div id="help">
+<b>Mover:</b> <kbd>WASD</kbd> ou <kbd>Setas</kbd><br>
+<b>Quebrar:</b> clique esquerdo<br>
+<b>Colocar:</b> clique direito<br>
+<b>Trocar bloco:</b> <kbd>1-9</kbd> ou clique na hotbar<br>
+<b>Criativo:</b> <kbd>C</kbd> (voar com <kbd>Espa├ºo</kbd>/voo + vida infinita)<br>
+<b>Skin pato:</b> <kbd>T</kbd> ou bot├úo ­ƒªå<br>
+<b>Invent├írio criativo:</b> <kbd>E</kbd><br>
+<b>Domar/interagir:</b> clique no animal<br>
+<b>Pet:</b> clique p/ adotar, clique de novo p/ sentar/seguir <kbd>P</kbd> chama pets<br>
+<b>No celular:</b> toque para andar/quebrar
+</div>
+</div>
+<div class="card">
+<div class="row">
+<button class="btn" id="btnDay">ÔÿÇ´©Å Dia</button>
+<button class="btn alt" id="btnNight">­ƒîÖ Noite</button>
+<button class="btn warn" id="btnHeal">­ƒÆû Curar</button>
+<button class="btn red" id="btnClear">­ƒùæ´©Å Limpar</button>
+</div>
+<div class="row" style="margin-top:6px">
+<button class="btn alt" id="btnSave">­ƒÆ¥ Salvar</button>
+<button class="btn alt" id="btnLoad">­ƒôé Carregar</button>
+<button class="btn" id="btnNew">­ƒî▒ Novo mundo</button>
+</div>
+</div>
+<div class="card">
+<h2>­ƒÉ¥ Animais de Estima├º├úo (<span id="petN">0</span>)</h2>
+<div style="font-size:12px;margin-bottom:6px">Clique em qualquer animal para adotar! Pets te seguem, te protegem e ganham nomes fofos. ­ƒÉÂ­ƒÉ▒­ƒªå</div>
+<div id="petList" style="font-size:13px;display:flex;flex-direction:column;gap:6px;max-height:220px;overflow:auto"></div>
+<div class="row" style="margin-top:6px">
+<button class="btn" id="btnCallPets">­ƒôú Chamar (P)</button>
+<button class="btn warn" id="btnHealPets">­ƒÆû Curar pets</button>
+</div>
+</div>
+<div class="card" id="creativePanel">
+<h2>­ƒÄ¿ MODO CRIATIVO - Todos os blocos</h2>
+<div class="row" id="blockList"></div>
+<h2>­ƒÑÜ Ovos de animais (clique p/ spawnar)</h2>
+<div class="row" id="eggList" style="max-height:220px;overflow:auto"></div>
+<h2>Ô£¿ Poderes criativos</h2>
+<label><input type="checkbox" id="flyChk"> ­ƒòè´©Å Voar</label><br>
+<label><input type="checkbox" id="godChk" checked> ­ƒøí´©Å Vida infinita</label><br>
+<button class="btn" id="btnRain">­ƒîº´©Å Chuva de animais!</button>
+</div>
+<div class="card">
+<h2>­ƒôû Enciclop├®dia (<span id="foundN">0</span>/<span id="totalN">0</span>)</h2>
+<div id="dex" style="font-size:13px;max-height:220px;overflow:auto"></div>
+</div>
+<div class="card" style="font-size:12px">­ƒÆí Dica: ative o CRIATIVO para ganhar todos os blocos infinitos, voar e spawnar qualquer animal na hora!</div>
 </div>
 </div>
 <script>
-// ===== MINICRAFT 3D 1a PESSOA =====
-const WS=64, WATER_Y=3;
-const BLOCKS={grass:{name:'Grama'},dirt:{name:'Terra'},stone:{name:'Pedra'},wood:{name:'Madeira'},leaves:{name:'Folha'},sand:{name:'Areia'},water:{name:'Água'},snow:{name:'Neve'},brick:{name:'Tijolo'},glass:{name:'Vidro'},plank:{name:'Tábua'},torch:{name:'Tocha'},diamond:{name:'Diamante'},coal:{name:'Carvão'}};
+// ===== MINICRAFT MUNDO ANIMAL =====
+const TILE=32, W=128, H=128;
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+function resize(){cv.width=cv.clientWidth;cv.height=cv.clientHeight} 
+window.addEventListener('resize',resize);resize();
+
+// Blocos - paleta cl├íssica Minecraft
+const BLOCKS={
+ grass:{c:'#7cbd6b',c2:'#5d8a4a',name:'Grama',hard:1},
+ dirt:{c:'#79553a',c2:'#5a3d28',name:'Terra',hard:1},
+ stone:{c:'#828282',c2:'#5f5f5f',name:'Pedra',hard:3},
+ wood:{c:'#6b5230',c2:'#4a3820',name:'Madeira',hard:2},
+ leaves:{c:'#2d6a2d',c2:'#1d4a1d',name:'Folhas',hard:1},
+ sand:{c:'#dbd29d',c2:'#c2b57e',name:'Areia',hard:1},
+ water:{c:'#3f76e4',c2:'#2a4fb0',name:'├ügua',hard:99,solid:false},
+ snow:{c:'#eef4f5',c2:'#cbd8db',name:'Neve',hard:1},
+ ice:{c:'#a5f3fc',c2:'#22d3ee',name:'Gelo',hard:2},
+ flower:{c:'#4caf50',c2:'#ec4899',name:'Flores',hard:0},
+ torch:{c:'#451a03',c2:'#facc15',name:'Tocha',hard:0},
+ brick:{c:'#b91c1c',c2:'#7f1d1d',name:'Tijolos',hard:4},
+ glass:{c:'#e0f2fe',c2:'#7dd3fc',name:'Vidro',hard:2},
+ plank:{c:'#d6a35c',c2:'#92400e',name:'T├íbua',hard:2},
+ coal:{c:'#44403c',c2:'#111111',name:'Carv├úo',hard:3},
+ diamond:{c:'#67e8f9',c2:'#0e7490',name:'Diamante',hard:5},
+};
 const BLOCK_KEYS=Object.keys(BLOCKS);
-const ANIMALS=[['vaca','🐄','Vaca',0],['porco','🐷','Porco',0],['galinha','🐔','Galinha',0],['ovelha','🐑','Ovelha',0],['cabra','🐐','Cabra',0],['cavalo','🐴','Cavalo',0],['coelho','🐰','Coelho',0],['lobo','🐺','Lobo',1],['raposa','🦊','Raposa',0],['urso','🐻','Urso',1],['urso_polar','🐻‍❄️','Urso Polar',1],['veado','🦌','Veado',0],['sapo','🐸','Sapo',0],['tartaruga','🐢','Tartaruga',0],['gato','🐱','Gato',0],['leao','🦁','Leão',1],['tigre','🐯','Tigre',1],['elefante','🐘','Elefante',0],['girafa','🦒','Girafa',0],['zebra','🦓','Zebra',0],['hipopotamo','🦛','Hipopótamo',1],['macaco','🐒','Macaco',0],['gorila','🦍','Gorila',1],['panda','🐼','Panda',0],['coala','🐨','Coala',0],['canguru','🦘','Canguru',0],['camelo','🐪','Camelo',0],['pinguim','🐧','Pinguim',0],['aguia','🦅','Águia',1],['papagaio','🦜','Papagaio',0],['coruja','🦉','Coruja',0],['pato','🦆','Pato',0],['flamingo','🦩','Flamingo',0],['abelha','🐝','Abelha',0],['borboleta','🦋','Borboleta',0],['peixe','🐟','Peixe',0],['tubarao','🦈','Tubarão',1],['golfinho','🐬','Golfinho',0],['baleia','🐳','Baleia',0],['polvo','🐙','Polvo',0],['caranguejo','🦀','Caranguejo',0],['crocodilo','🐊','Crocodilo',1],['cobra','🐍','Cobra',1],['lagarto','🦎','Lagarto',0],['escorpiao','🦂','Escorpião',1],['pavao','🦚','Pavão',0]].map(a=>({id:a[0],e:a[1],n:a[2],hostil:!!a[3]}));
+
+// Todos os animais do mundo
+const ANIMALS=[
+ {id:'vaca',e:'­ƒÉä',n:'Vaca',bio:['grass'],hostil:false,drop:'­ƒÑ®'},
+ {id:'porco',e:'­ƒÉÀ',n:'Porco',bio:['grass'],hostil:false,drop:'­ƒÑô'},
+ {id:'galinha',e:'­ƒÉö',n:'Galinha',bio:['grass'],hostil:false,drop:'­ƒìù'},
+ {id:'ovelha',e:'­ƒÉæ',n:'Ovelha',bio:['grass','snow'],hostil:false,drop:'­ƒºÂ'},
+ {id:'cabra',e:'­ƒÉÉ',n:'Cabra',bio:['stone'],hostil:false,drop:'­ƒÑø'},
+ {id:'cavalo',e:'­ƒÉ┤',n:'Cavalo',bio:['grass'],hostil:false,drop:'­ƒÉÄ'},
+ {id:'coelho',e:'­ƒÉ░',n:'Coelho',bio:['grass','snow'],hostil:false,drop:'­ƒÑò'},
+ {id:'lobo',e:'­ƒÉ║',n:'Lobo',bio:['wood','snow'],hostil:true,drop:'­ƒª┤'},
+ {id:'raposa',e:'­ƒªè',n:'Raposa',bio:['wood'],hostil:false,drop:'­ƒìç'},
+ {id:'urso',e:'­ƒÉ╗',n:'Urso',bio:['wood','snow'],hostil:true,drop:'­ƒì»'},
+ {id:'urso_polar',e:'­ƒÉ╗ÔÇìÔØä´©Å',n:'Urso Polar',bio:['snow','ice'],hostil:true,drop:'­ƒÉƒ'},
+ {id:'veado',e:'­ƒªî',n:'Veado',bio:['wood'],hostil:false,drop:'­ƒî┐'},
+ {id:'sapo',e:'­ƒÉ©',n:'Sapo',bio:['water'],hostil:false,drop:'­ƒ¬░'},
+ {id:'tartaruga',e:'­ƒÉó',n:'Tartaruga',bio:['water','sand'],hostil:false,drop:'­ƒÉÜ'},
+ {id:'gato',e:'­ƒÉ▒',n:'Gato',bio:['grass'],hostil:false,drop:'­ƒÉƒ'},
+ {id:'leao',e:'­ƒªü',n:'Le├úo',bio:['sand'],hostil:true,drop:'­ƒìû'},
+ {id:'tigre',e:'­ƒÉ»',n:'Tigre',bio:['wood'],hostil:true,drop:'­ƒìû'},
+ {id:'elefante',e:'­ƒÉÿ',n:'Elefante',bio:['sand','grass'],hostil:false,drop:'­ƒÑ£'},
+ {id:'girafa',e:'­ƒªÆ',n:'Girafa',bio:['sand'],hostil:false,drop:'­ƒìâ'},
+ {id:'zebra',e:'­ƒªô',n:'Zebra',bio:['sand','grass'],hostil:false,drop:'­ƒî¥'},
+ {id:'hipopotamo',e:'­ƒªø',n:'Hipop├│tamo',bio:['water'],hostil:true,drop:'­ƒìë'},
+ {id:'macaco',e:'­ƒÉÆ',n:'Macaco',bio:['wood'],hostil:false,drop:'­ƒìî'},
+ {id:'gorila',e:'­ƒªì',n:'Gorila',bio:['wood'],hostil:true,drop:'­ƒìî'},
+ {id:'panda',e:'­ƒÉ╝',n:'Panda',bio:['wood'],hostil:false,drop:'­ƒÄï'},
+ {id:'coala',e:'­ƒÉ¿',n:'Coala',bio:['wood'],hostil:false,drop:'­ƒî┐'},
+ {id:'canguru',e:'­ƒªÿ',n:'Canguru',bio:['sand'],hostil:false,drop:'­ƒÑè'},
+ {id:'camelo',e:'­ƒÉ¬',n:'Camelo',bio:['sand'],hostil:false,drop:'­ƒÆº'},
+ {id:'pinguim',e:'­ƒÉº',n:'Pinguim',bio:['snow','ice'],hostil:false,drop:'­ƒÉƒ'},
+ {id:'aguia',e:'­ƒªà',n:'├üguia',bio:['stone'],hostil:true,drop:'­ƒ¬Â'},
+ {id:'papagaio',e:'­ƒª£',n:'Papagaio',bio:['wood'],hostil:false,drop:'­ƒîê'},
+ {id:'coruja',e:'­ƒªë',n:'Coruja',bio:['wood'],hostil:false,drop:'­ƒîÖ'},
+ {id:'pato',e:'­ƒªå',n:'Pato',bio:['water'],hostil:false,drop:'­ƒÑÜ'},
+ {id:'flamingo',e:'­ƒª®',n:'Flamingo',bio:['water'],hostil:false,drop:'­ƒî©'},
+ {id:'abelha',e:'­ƒÉØ',n:'Abelha',bio:['flower'],hostil:false,drop:'­ƒì»'},
+ {id:'borboleta',e:'­ƒªï',n:'Borboleta',bio:['flower','grass'],hostil:false,drop:'­ƒîÀ'},
+ {id:'peixe',e:'­ƒÉƒ',n:'Peixe',bio:['water'],hostil:false,drop:'­ƒìú'},
+ {id:'tubarao',e:'­ƒªê',n:'Tubar├úo',bio:['water'],hostil:true,drop:'­ƒªÀ'},
+ {id:'golfinho',e:'­ƒÉ¼',n:'Golfinho',bio:['water'],hostil:false,drop:'­ƒÆÖ'},
+ {id:'baleia',e:'­ƒÉ│',n:'Baleia',bio:['water'],hostil:false,drop:'­ƒÆª'},
+ {id:'polvo',e:'­ƒÉÖ',n:'Polvo',bio:['water'],hostil:false,drop:'­ƒªæ'},
+ {id:'caranguejo',e:'­ƒªÇ',n:'Caranguejo',bio:['sand'],hostil:false,drop:'­ƒª×'},
+ {id:'crocodilo',e:'­ƒÉè',n:'Crocodilo',bio:['water'],hostil:true,drop:'­ƒªÀ'},
+ {id:'cobra',e:'­ƒÉì',n:'Cobra',bio:['sand','wood'],hostil:true,drop:'­ƒÑÜ'},
+ {id:'lagarto',e:'­ƒªÄ',n:'Lagarto',bio:['sand'],hostil:false,drop:'­ƒîÁ'},
+ {id:'escorpiao',e:'­ƒªé',n:'Escorpi├úo',bio:['sand'],hostil:true,drop:'Ôÿá´©Å'},
+ {id:'pavao',e:'­ƒªÜ',n:'Pav├úo',bio:['grass'],hostil:false,drop:'­ƒ¬Â'},
+];
 document.getElementById('totalN').textContent=ANIMALS.length;
-const PET_NAMES=['Bolinha','Floquinho','Pipoca','Mel','Thor','Luna','Toby','Nina','Max','Bella','Simba','Lola','Paçoca','Cookie'];
-// estado
-let voxels=new Map(), player={x:WS/2,y:8,z:WS/2,vy:0,hp:10,skin:'duck'}, yaw=0, pitch=0, locked=false;
-let creative=false, fly=false, god=true, time=12, day=1;
-let inv={}, hotbar=['grass','wood','stone','plank','brick','glass','torch','sand','diamond'], sel=0;
-BLOCK_KEYS.forEach(k=>inv[k]=20); inv.grass=40;
-let animals=[], found=new Set();
-const keys={};
-function msg(t){let m=document.getElementById('msg');m.textContent=t;m.style.display='block';clearTimeout(m._t);m._t=setTimeout(()=>m.style.display='none',2200)}
-let AC=null;function snd(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();let o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;o.connect(g);g.connect(AC.destination);g.gain.value=0.07;o.start();o.stop(AC.currentTime+0.15)}catch(e){}}
-// three
-const canvas=document.getElementById('c3d');
-const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
-renderer.setPixelRatio(1);
-function resize(){renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);camera.aspect=canvas.clientWidth/canvas.clientHeight;camera.updateProjectionMatrix()}
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x87ceeb);scene.fog=new THREE.Fog(0x87ceeb,20,90);
-const camera=new THREE.PerspectiveCamera(75,1,0.1,300);
-scene.add(new THREE.HemisphereLight(0xffffff,0x445544,0.9));
-const sun=new THREE.DirectionalLight(0xffffff,0.9);scene.add(sun);scene.add(sun.target);
-function texFor(type){
- const c=document.createElement('canvas');c.width=c.height=16;const g=c.getContext('2d');
- const R=(x,y)=>{let h=(x*374761393+y*668265263+type.length*974634)|0;h=(h^(h>>13))*1274126177;return ((h^(h>>16))>>>0)/4294967295};
- const pal={grass:['#79553a','#7cbd6b'],dirt:['#79553a','#4a3320'],stone:['#828282','#5f5f5f'],sand:['#dbd29d','#b8ab72'],wood:['#6b5230','#4a3820'],leaves:['#2d6a2d','#0f2f0f'],snow:['#eef4f5','#c2d2d6'],water:['#3f76e4','#2a4fb0'],brick:['#96251f','#b8b8b8'],glass:['#c8ecf5','#fff'],plank:['#a67c3f','#5d3f1d'],torch:['#6b6b6b','#ffeb3b'],diamond:['#5ff2f2','#828282'],coal:['#333','#828282']}[type]||['#888','#555'];
- for(let y=0;y<16;y++)for(let x=0;x<16;x++){let h=R(x,y);g.fillStyle=h>0.8?pal[1]:h<0.2?pal[1]:pal[0];if(type==='grass'&&y<5)g.fillStyle=h>0.4?'#6aaa5a':'#7cbd6b';g.fillRect(x,y,1,1)}
- const t=new THREE.CanvasTexture(c);t.magFilter=THREE.NearestFilter;t.minFilter=THREE.NearestFilter;return t;
-}
-const geoBox=new THREE.BoxGeometry(1,1,1);
-const mats={};BLOCK_KEYS.forEach(k=>{mats[k]=new THREE.MeshLambertMaterial({map:texFor(k),transparent:k==='water'||k==='glass',opacity:(k==='water'||k==='glass')?0.75:1})});
-let meshes={}; // tipo -> InstancedMesh
-function key(x,y,z){return x+','+y+','+z}
-function hAt(x,z){return Math.floor(4+Math.sin(x*0.15)*1.6+Math.cos(z*0.13)*1.6+Math.sin((x+z)*0.05));}
+
+// Mundo
+let map=[], player={skin:'steve'}, animals=[], particles=[], time=12, day=1, creative=false, fly=false, god=true;
+const SKINS={steve:{e:'­ƒºæ',n:'Steve'},duck:{e:'­ƒªå',n:'Pato'},witch:{e:'­ƒºÖ',n:'Bruxo'}};
+function setSkin(s){player.skin=s;document.getElementById('skinName').textContent=SKINS[s].e+' '+SKINS[s].n;msg('­ƒªå Skin trocada: '+SKINS[s].e+' '+SKINS[s].n+'!');snd(700)}
+let inv={}, hotbar=['grass','wood','stone','plank','brick','glass','torch','flower','diamond'], sel=0;
+BLOCK_KEYS.forEach(k=>inv[k]=creative?999:0);
+inv.grass=20;inv.wood=10;inv.dirt=10;
+
 function genWorld(){
- voxels.clear();animals=[];
- for(let x=0;x<WS;x++)for(let z=0;z<WS;z++){
-  let h=hAt(x,z), snow=h>6;
-  for(let y=0;y<=h;y++){
-   let t='dirt';if(y===h)t=snow?'snow':(h<=WATER_Y+1?'sand':'grass');else if(y<h-2)t='stone';
-   voxels.set(key(x,y,z),t);
-  }
-  if(h<WATER_Y){for(let y=h+1;y<=WATER_Y;y++)voxels.set(key(x,y,z),'water')}
-  if(Math.random()<0.02&&h>WATER_Y+1){for(let i=1;i<=3;i++)voxels.set(key(x,h+i,z),'wood');for(let dx=-2;dx<=2;dx++)for(let dz=-2;dz<=2;dz++)for(let dy=0;dy<2;dy++){if(Math.abs(dx)+Math.abs(dz)+dy<4)voxels.set(key(x+dx,h+3+dy,z+dz),'leaves')}}
- }
- player.x=WS/2;player.z=WS/2;player.y=hAt(WS/2,WS/2)+2;player.vy=0;
- for(let i=0;i<45;i++)spawnAnimal(false);
- rebuild();
+ map=[];
+ for(let y=0;y<H;y++){let r=[];for(let x=0;x<W;x++){
+  let n=Math.sin(x*0.08)*Math.cos(y*0.07)+Math.sin((x+y)*0.03)*0.8;
+  let m=Math.abs(x-W/2)+Math.abs(y-H/2);
+  let t='grass';
+  if(n<-0.7) t='water'; else if(n<-0.4) t='sand'; else if(n>0.9) t='stone';
+  else if(y<18) t='snow'; else if(y>H-16) t='sand';
+  else if(Math.random()<0.08) t='wood'; else if(Math.random()<0.06) t='flower';
+  else if(Math.random()<0.05) t='leaves';
+  if(m<6) t='grass';
+  r.push(t);
+ }map.push(r)}
+ // lagos
+ for(let i=0;i<6;i++){let cx=Math.random()*W|0,cy=Math.random()*H|0;for(let d=0;d<40;d++){let x=cx+(Math.random()*12|0)-6,y=cy+(Math.random()*12|0)-6;if(x>=0&&y>=0&&x<W&&y<H)map[y][x]='water'}}
+  player={x:W/2*TILE,y:H/2*TILE,hp:10,food:10,skin:(player&&player.skin)||'duck'};
+ animals=[];
+ for(let i=0;i<70;i++) spawnRandom(false);
 }
-function rebuild(){
- Object.values(meshes).forEach(m=>{scene.remove(m);m.dispose&&m.dispose()});meshes={};
- let byType={};voxels.forEach((t,k)=>{(byType[t]=byType[t]||[]).push(k)});
- Object.entries(byType).forEach(([t,arr])=>{
-  let im=new THREE.InstancedMesh(geoBox,mats[t],arr.length);let d=new THREE.Object3D();
-  arr.forEach((k,i)=>{let [x,y,z]=k.split(',').map(Number);d.position.set(x+0.5,y+0.5,z+0.5);d.updateMatrix();im.setMatrixAt(i,d.matrix)});
-  im.instanceMatrix.needsUpdate=true;scene.add(im);meshes[t]=im;
+function biomeAt(x,y){let t=map[y]&&map[y][x];if(t==='sand')return['sand'];if(t==='snow'||t==='ice')return['snow','ice'];if(t==='water')return['water'];if(t==='stone')return['stone'];if(t==='wood'||t==='leaves')return['wood'];return['grass','flower']}
+function spawnRandom(near=true){
+ let cands=ANIMALS.filter(a=>true); let a=cands[Math.random()*cands.length|0];
+ let x,y,tries=0;
+ do{x=Math.random()*W|0;y=Math.random()*H|0;tries++}while(tries<50 && !a.bio.some(b=>biomeAt(x,y).includes(b)||map[y][x]===b));
+ if(near){x=Math.floor(player.x/TILE)+(Math.random()*20|0)-10;y=Math.floor(player.y/TILE)+(Math.random()*20|0)-10;x=Math.max(0,Math.min(W-1,x));y=Math.max(0,Math.min(H-1,y))}
+ addAnimal(a.id,x,y);
+}
+function addAnimal(id,tx,ty){
+ const d=ANIMALS.find(a=>a.id===id);
+ animals.push({id:d.id,e:d.e,n:d.n,hostil:d.hostil,drop:d.drop,x:tx*TILE,y:ty*TILE,vx:0,vy:0,t:Math.random()*5,hp:5,maxhp:5,tame:false,pet:false,petName:'',sit:false,love:0,level:1});
+ discover(id);
+}
+// ===== SISTEMA DE PETS ­ƒÉ¥ =====
+const PET_NAMES=['Bolinha','Floquinho','Pipoca','Mel','Thor','Luna','Toby','Nina','Max','Bella','Simba','Lola','Pa├ºoca','Cookie','Ted','Mimi','Rocky','Sol','Estrela','Fred'];
+function adoptPet(a){
+ a.pet=true;a.tame=true;a.hostil=false;a.sit=false;a.love=1;a.level=1;a.maxhp=10;a.hp=a.maxhp;
+ a.petName=(PET_NAMES[Math.random()*PET_NAMES.length|0])+' '+a.e;
+ puff(a.x+16,a.y+16,'#ff69b4');puff(a.x+16,a.y+16,'#facc15');
+ msg('­ƒÉ¥ Novo pet: '+a.petName+' ('+a.n+')! Ele vai te seguir e proteger! ­ƒÆÜ');snd(880);setTimeout(()=>snd(990),150);
+ renderPets();
+}
+function renderPets(){
+ let pets=animals.filter(a=>a.pet);
+ document.getElementById('petN').textContent=pets.length;
+ let el=document.getElementById('petList');
+ if(!pets.length){el.innerHTML='<span style="color:#9ca3af">Nenhum pet ainda... clique em um animal! ­ƒÑ║</span>';return}
+ el.innerHTML='';
+ pets.forEach((p,i)=>{
+  let d=document.createElement('div');
+  d.style.cssText='background:#0f172a;border:1px solid #334155;border-radius:8px;padding:6px;display:flex;gap:6px;align-items:center;justify-content:space-between';
+  d.innerHTML=`<span>${p.e} <b>${p.petName}</b><br><small>Nv ${p.level} ÔØñ´©Å${Math.ceil(p.hp)}/${p.maxhp} ${p.sit?'­ƒ¬æ sentado':'­ƒÜÂ seguindo'}</small></span>`;
+  let btns=document.createElement('span');
+  btns.innerHTML=`<button title="seguir/sentar" style="font-size:16px;cursor:pointer">${p.sit?'­ƒÜÂ':'­ƒ¬æ'}</button> <button title="renomear" style="font-size:16px;cursor:pointer">Ô£Å´©Å</button> <button title="soltar" style="font-size:16px;cursor:pointer">ÔØî</button>`;
+  let [bSit,bRen,bRel]=btns.querySelectorAll('button');
+  bSit.onclick=()=>{p.sit=!p.sit;msg(p.sit?`­ƒ¬æ ${p.petName} sentou!`:`­ƒÜÂ ${p.petName} vai te seguir!`);renderPets()};
+  bRen.onclick=()=>{let n=prompt('Novo nome para seu pet '+p.e+' ('+p.n+'):',p.petName);if(n&&n.trim()){p.petName=n.trim().slice(0,20);renderPets();msg('Ô£Å´©Å Pet agora se chama '+p.petName)}};
+  bRel.onclick=()=>{p.pet=false;p.sit=false;msg('­ƒÿó '+p.petName+' voltou pra natureza...');renderPets()};
+  d.appendChild(btns);el.appendChild(d);
  });
 }
-function groundY(x,z){let xi=Math.floor(x),zi=Math.floor(z);for(let y=20;y>=0;y--){let t=voxels.get(key(xi,y,zi));if(t&&t!=='water')return y+1}return 1}
-function emojiTex(e){let c=document.createElement('canvas');c.width=c.height=64;let g=c.getContext('2d');g.font='48px serif';g.textAlign='center';g.textBaseline='middle';g.fillText(e,32,36);let t=new THREE.CanvasTexture(c);return t}
-const animalTexCache={};
-function spawnAnimal(near,forceId){
- let d=forceId?ANIMALS.find(a=>a.id===forceId):ANIMALS[Math.random()*ANIMALS.length|0];
- let x=near?player.x+(Math.random()*16-8):Math.random()*WS, z=near?player.z+(Math.random()*16-8):Math.random()*WS;
- x=Math.max(1,Math.min(WS-2,x));z=Math.max(1,Math.min(WS-2,z));
- let y=groundY(x,z)+0.6;
- if(!animalTexCache[d.id])animalTexCache[d.id]=emojiTex(d.e);
- let sp=new THREE.Sprite(new THREE.SpriteMaterial({map:animalTexCache[d.id],transparent:true}));
- sp.position.set(x,y,z);sp.scale.set(1,1,1);scene.add(sp);
- animals.push({d,mesh:sp,vx:0,vz:0,t:Math.random()*3,pet:false,petName:'',sit:false,level:1,hp:5,maxhp:5,love:0});
- discover(d.id);
-}
-function discover(id){if(!found.has(id)){found.add(id);renderDex();snd(660);msg('🎉 Novo animal: '+ANIMALS.find(a=>a.id===id).n+' '+ANIMALS.find(a=>a.id===id).e)}document.getElementById('foundN').textContent=found.size}
-function renderDex(){document.getElementById('dex').innerHTML=ANIMALS.map(a=>found.has(a.id)?`✅ ${a.e} ${a.n}`:`❔ ???`).join('<br>')}
-function renderPets(){let pets=animals.filter(a=>a.pet);document.getElementById('petN').textContent=pets.length;let el=document.getElementById('petList');if(!pets.length){el.innerHTML='<span style="color:#9ca3af">Mire e clique num animal! 🥺</span>';return}el.innerHTML='';pets.forEach(p=>{let d=document.createElement('div');d.style.cssText='background:#0f172a;border:1px solid #334155;border-radius:8px;padding:6px;display:flex;justify-content:space-between;align-items:center';d.innerHTML=`<span>${p.d.e} <b>${p.petName}</b><br><small>Nv ${p.level} ❤️${Math.ceil(p.hp)} ${p.sit?'🪑':'🚶'}</small></span>`;let s=document.createElement('span');s.innerHTML=`<button>${p.sit?'🚶':'🪑'}</button> <button>❌</button>`;let [b1,b2]=s.querySelectorAll('button');b1.onclick=()=>{p.sit=!p.sit;renderPets()};b2.onclick=()=>{p.pet=false;renderPets()};d.appendChild(s);el.appendChild(d)})}
-function adoptPet(a){a.pet=true;a.d.hostil=false;a.sit=false;a.level=1;a.maxhp=10;a.hp=10;a.love=1;a.petName=(PET_NAMES[Math.random()*PET_NAMES.length|0])+' '+a.d.e;msg('🐾 Novo pet: '+a.petName+'! Te segue e protege 💚');snd(880);renderPets()}
-function callPets(){let n=0;animals.forEach(a=>{if(a.pet){a.mesh.position.set(player.x+(Math.random()*4-2),player.y+1,player.z+(Math.random()*4-2));a.sit=false;n++}});msg(n?`📣 ${n} pet(s) vieram!`:'⚠️ Sem pets!');renderPets()}
-const SKINS={steve:'🧑',duck:'🦆',witch:'🧙'};
-function setSkin(s){player.skin=s;document.getElementById('skinName').textContent=SKINS[s]+' '+s;document.getElementById('hand').textContent=(s==='duck'?'🦆⛏️':SKINS[s]+'⛏️');msg('Skin: '+SKINS[s]+' '+s);snd(700)}
-// input
-addEventListener('keydown',e=>{keys[e.key.toLowerCase()]=true;
+function callPets(){let n=0;animals.forEach(a=>{if(a.pet){a.x=player.x+(Math.random()*80-40);a.y=player.y+(Math.random()*80-40);a.sit=false;n++}});msg(n?`­ƒôú ${n} pet(s) vieram at├® voc├¬! ­ƒÉ¥`:'ÔÜá´©Å Voc├¬ ainda n├úo tem pets!');renderPets();snd(760)}
+function healPets(){animals.forEach(a=>{if(a.pet){a.hp=a.maxhp;a.love++;if(a.love>=3){a.love=0;a.level++;a.maxhp+=2;a.hp=a.maxhp;msg('Ô¼å´©Å '+a.petName+' subiu para Nv '+a.level+'! ­ƒÄë')}}});msg('­ƒÆû Pets curados!');renderPets()}
+const found=new Set();
+function discover(id){if(!found.has(id)){found.add(id);msg('­ƒÄë Novo animal: '+ANIMALS.find(a=>a.id===id).n+' '+ANIMALS.find(a=>a.id===id).e);renderDex();snd(660)}document.getElementById('foundN').textContent=found.size}
+function renderDex(){document.getElementById('dex').innerHTML=ANIMALS.map(a=>found.has(a.id)?`Ô£à ${a.e} ${a.n}`:`ÔØö ???`).join('<br>')}
+
+// Input
+const keys={};
+addEventListener('keydown',e=>{
+ keys[e.key.toLowerCase()]=true;
  if(e.key>='1'&&e.key<='9'){sel=+e.key-1;renderHot()}
- if(e.key.toLowerCase()==='c')toggleCreative();
- if(e.key.toLowerCase()==='e')togglePanel();
- if(e.key.toLowerCase()==='t'){setSkin(player.skin==='duck'?'steve':player.skin==='steve'?'witch':'duck')}
- if(e.key.toLowerCase()==='p')callPets();
- if(e.key===' '&&fly)e.preventDefault();
+ if(e.key.toLowerCase()==='c') toggleCreative();
+ if(e.key.toLowerCase()==='e') toggleInv();
+ if(e.key.toLowerCase()==='t'){player.skin=player.skin==='duck'?'steve':player.skin==='steve'?'witch':'duck';setSkin(player.skin)}
+ if(e.key.toLowerCase()==='p') callPets();
+ if(e.key.toLowerCase()===' '&&fly) e.preventDefault();
 });
 addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
-document.addEventListener('mousemove',e=>{if(!locked)return;yaw-=e.movementX*0.0025;pitch-=e.movementY*0.0025;pitch=Math.max(-1.5,Math.min(1.5,pitch))});
-function lock(){canvas.requestPointerLock&&canvas.requestPointerLock()}
-document.addEventListener('pointerlockchange',()=>{locked=document.pointerLockElement===canvas;document.getElementById('play').style.display=locked?'none':'flex'});
-document.getElementById('playBtn').onclick=lock;canvas.onclick=()=>{if(!locked)lock()};
-const ray=new THREE.Raycaster();ray.far=6;
-function centerHit(){
- ray.setFromCamera({x:0,y:0},camera);
- let hits=[];
- Object.values(meshes).forEach(m=>{let h=ray.intersectObject(m);if(h.length)hits.push(...h)});
- hits.sort((a,b)=>a.distance-b.distance);
- let ah=ray.intersectObjects(animals.map(a=>a.mesh));
- ah.sort((a,b)=>a.distance-b.distance);
- return {block:hits[0]||null,animal:ah[0]||null};
-}
-canvas.addEventListener('mousedown',e=>{
- if(!locked){lock();return}
- let {block,animal}=centerHit();
- if(e.button===0){
-  if(animal&&(!block||animal.distance<block.distance)){
-   let a=animals.find(a=>a.mesh===animal.object);
-   if(a){if(!a.pet){if(a.d.hostil&&!creative&&Math.random()<0.3){player.hp-=1;msg('😱 O '+a.d.n+' mordeu! Clique de novo!');return}adoptPet(a)}else{a.love++;a.hp=Math.min(a.maxhp,a.hp+1);msg('💚 '+a.petName+' te ama!');snd(520);renderPets()}return}
-  }
-  if(block){let p=block.point.clone().sub(block.face.normal.clone().multiplyScalar(0.5));let bx=Math.floor(p.x),by=Math.floor(p.y),bz=Math.floor(p.z);let t=voxels.get(key(bx,by,bz));if(t&&t!=='water'){voxels.delete(key(bx,by,bz));inv[t]=(inv[t]||0)+(creative?0:1);rebuild();renderHot();snd(220)}}
- } else if(e.button===2){
-  if(block){let p=block.point.clone().add(block.face.normal.clone().multiplyScalar(0.5));let bx=Math.floor(p.x),by=Math.floor(p.y),bz=Math.floor(p.z);let b=hotbar[sel];if(bx>=0&&bz>=0&&bx<WS&&bz<WS&&by<20&&!voxels.get(key(bx,by,bz))){if(creative||inv[b]>0){voxels.set(key(bx,by,bz),b);if(!creative)inv[b]--;rebuild();renderHot()}}}
+let mouse={down:false,right:false,x:0,y:0};
+cv.addEventListener('mousedown',e=>{if(e.button===0)mouse.down=true;if(e.button===2)mouse.right=true;handleClick(e)});
+cv.addEventListener('mouseup',e=>{if(e.button===0)mouse.down=false;if(e.button===2)mouse.right=false});
+cv.addEventListener('contextmenu',e=>e.preventDefault());
+cv.addEventListener('mousemove',e=>{let r=cv.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top});
+// touch
+cv.addEventListener('touchstart',e=>{let t=e.touches[0],r=cv.getBoundingClientRect();mouse.x=t.clientX-r.left;mouse.y=t.clientY-r.top;handleClick({clientX:t.clientX,clientY:t.clientY})});
+
+let cam={x:0,y:0};
+function worldMouse(){return{x:cam.x+mouse.x*(cv.width/cv.clientWidth||1),y:cam.y+mouse.y*(cv.height/cv.clientHeight||1)}}
+// Simplifica├º├úo: c├ómera em pixels = cam; mouse em tela -> mundo
+function screenToWorld(mx,my){return{x:cam.x+mx,y:cam.y+my}}
+function handleClick(e){
+ let r=cv.getBoundingClientRect();
+ let mx=(e.clientX-r.left)*(cv.width/r.width), my=(e.clientY-r.top)*(cv.height/r.height);
+ let wx=cam.x+mx, wy=cam.y+my;
+ // animal clicado?
+ let hit=animals.find(a=>Math.hypot(a.x+TILE/2-wx,a.y+TILE/2-wy)<28);
+ if(hit){interact(hit);return}
+ let tx=Math.floor(wx/TILE),ty=Math.floor(wy/TILE);
+ if(tx<0||ty<0||tx>=W||ty>=H)return;
+ if(e.button===2||e.which===3||mouse.right){ // colocar
+  let b=hotbar[sel]; if(creative||inv[b]>0){map[ty][tx]=b;if(!creative){inv[b]--;if(inv[b]<=0){}}renderHot();puff(wx,wy,'#fff')}return;
  }
-});
-canvas.addEventListener('contextmenu',e=>e.preventDefault());
-function toggleCreative(){creative=!creative;document.getElementById('creativePanel').style.display=creative?'block':'none';document.getElementById('modePill').textContent=creative?'✨ CRIATIVO':'� survival SOBREVIVÊNCIA';document.getElementById('creativeBtn').textContent=creative?'🎨 CRIATIVO: ON':'🎨 CRIATIVO (C)';if(creative){BLOCK_KEYS.forEach(k=>inv[k]=999);fly=document.getElementById('flyChk').checked=true}else{BLOCK_KEYS.forEach(k=>{if(inv[k]>900)inv[k]=20});fly=false}renderHot();msg(creative?'🎨 CRIATIVO! Voar + infinito!':'� survival SOBREVIVÊNCIA');snd(creative?880:440)}
-function togglePanel(){let p=document.getElementById('creativePanel');if(window.innerWidth<=800)document.getElementById('sidebar').classList.toggle('open');else p.style.display=p.style.display==='block'?'none':'block'}
-function renderHot(){let hb=document.getElementById('hotbar');hb.innerHTML='';const emo={grass:'🟩',dirt:'🟫',stone:'⬜',wood:'🪵',leaves:'🌳',sand:'🟨',water:'💧',snow:'❄️',brick:'🧱',glass:'🪟',plank:'🪑',torch:'🔥',diamond:'💎',coal:'⚫'};hotbar.forEach((b,i)=>{let d=document.createElement('div');d.className='slot'+(i===sel?' sel':'');d.innerHTML=`${emo[b]||'❔'}<small>${BLOCKS[b].name}</small><span class="n">${creative?'∞':(inv[b]||0)}</span>`;d.onclick=()=>{sel=i;renderHot()};hb.appendChild(d)})}
-function renderCreative(){let bl=document.getElementById('blockList');bl.innerHTML='';const emo={grass:'🟩',dirt:'🟫',stone:'⬜',wood:'🪵',leaves:'🌳',sand:'🟨',water:'💧',snow:'❄️',brick:'🧱',glass:'🪟',plank:'🪑',torch:'🔥',diamond:'💎',coal:'⚫'};BLOCK_KEYS.forEach(k=>{let d=document.createElement('div');d.className='egg';d.innerHTML=`${emo[k]}<small>${BLOCKS[k].name}</small>`;d.onclick=()=>{hotbar[sel]=k;renderHot()};bl.appendChild(d)});let el=document.getElementById('eggList');el.innerHTML='';ANIMALS.forEach(a=>{let d=document.createElement('div');d.className='egg';d.innerHTML=`${a.e}<small>${a.n}</small>`;d.onclick=()=>spawnAnimal(true,a.id);el.appendChild(d)})}
+ // quebrar
+ let b=map[ty][tx];
+ if(b==='water')return;
+ if(BLOCKS[b].hard>=99){msg('­ƒîè N├úo d├í pra quebrar ├ígua!');return}
+ map[ty][tx]='grass';
+ if(BLOCKS[b]){inv[b]=(inv[b]||0)+(creative?0:1);puff(wx,wy,BLOCKS[b].c);snd(220)}
+ renderHot();
+}
+function interact(a){
+ if(!a.pet){
+  // adotar qualquer animal, at├® predador vira bonzinho!
+  if(a.hostil && !creative && Math.random()<0.3){player.hp-=1;msg('­ƒÿ▒ O '+a.n+' te mordeu! Clique de novo com carinho pra domar!');snd(150);if(player.hp<=0 && !god){respawn()}return}
+  adoptPet(a);return;
+ }
+ // j├í ├® pet: carinho = cura + alterna sentar/seguir a cada 2 cliques? aqui: carinho + mostra status
+ a.love++;a.hp=Math.min(a.maxhp,a.hp+1);
+ if(a.love>=4){a.love=0;a.level++;a.maxhp+=2;a.hp=a.maxhp;msg('Ô¼å´©Å '+a.petName+' subiu para Nv '+a.level+'! '+a.e+'­ƒÄë');snd(990)}
+ else{msg('­ƒÆÜ '+a.petName+' ('+a.n+') te ama! '+a.e+' Nv '+a.level);snd(520)}
+ puff(a.x+16,a.y+8,'#ff69b4');
+ renderPets();renderHot();
+}
+function respawn(){msg('­ƒÆÇ Voc├¬ renasceu!');player.hp=10;player.food=10;player.x=W/2*TILE;player.y=H/2*TILE}
+
+// criativo
+function toggleCreative(){creative=!creative;document.getElementById('creativeBtn').textContent=creative?'­ƒÄ¿ CRIATIVO: ON':'­ƒÄ¿ CRIATIVO: OFF (C)';document.getElementById('modePill').textContent=creative?'Ô£¿ criativo: CRIATIVO':'´┐¢ survival: SOBREVIV├èNCIA';document.getElementById('creativePanel').style.display=creative?'block':'none';if(creative){BLOCK_KEYS.forEach(k=>inv[k]=999);fly=document.getElementById('flyChk').checked=true}else{BLOCK_KEYS.forEach(k=>{if(inv[k]>900)inv[k]=20})}renderHot();msg(creative?'­ƒÄ¿ MODO CRIATIVO ATIVADO! Voar, vida infinita e todos os blocos!':'´┐¢ survival MODO SOBREVIV├èNCIA');snd(creative?880:440)}
+function toggleInv(){let p=document.getElementById('creativePanel');let sb=document.querySelector('#sidebar');if(window.innerWidth<=800){sb.classList.toggle('open')}else{p.style.display=(p.style.display==='block'&&creative)?'none':'block'}}
+
+// hotbar / listas
+function renderHot(){
+ let hb=document.getElementById('hotbar');hb.innerHTML='';
+ hotbar.forEach((b,i)=>{let d=document.createElement('div');d.className='slot'+(i===sel?' sel':'');let emo={grass:'­ƒƒ®',dirt:'­ƒƒ½',stone:'Ô¼£',wood:'­ƒ¬Á',leaves:'­ƒî│',sand:'­ƒƒ¿',water:'­ƒÆº',snow:'Ô¼£',ice:'­ƒºè',flower:'­ƒî©',torch:'­ƒöÑ',brick:'­ƒº▒',glass:'­ƒ¬ƒ',plank:'­ƒ¬æ',coal:'ÔÜ½',diamond:'­ƒÆÄ'}[b]||'ÔØö';d.innerHTML=`${emo}<small>${BLOCKS[b].name}</small><span class="n">${creative?'Ôê×':(inv[b]||0)}</span>`;d.onclick=()=>{sel=i;renderHot()};hb.appendChild(d)});
+}
+function renderCreative(){
+ let bl=document.getElementById('blockList');bl.innerHTML='';
+ BLOCK_KEYS.forEach(k=>{let d=document.createElement('div');d.className='egg';d.innerHTML=`${{grass:'­ƒƒ®',dirt:'­ƒƒ½',stone:'Ô¼£',wood:'­ƒ¬Á',leaves:'­ƒî│',sand:'­ƒƒ¿',water:'­ƒÆº',snow:'ÔØä´©Å',ice:'­ƒºè',flower:'­ƒî©',torch:'­ƒöÑ',brick:'­ƒº▒',glass:'­ƒ¬ƒ',plank:'­ƒ¬æ',coal:'ÔÜ½',diamond:'­ƒÆÄ'}[k]}<small>${BLOCKS[k].name}</small>`;d.onclick=()=>{hotbar[sel]=k;renderHot();msg('Ô£à '+BLOCKS[k].name+' equipado!')};bl.appendChild(d)});
+ let el=document.getElementById('eggList');el.innerHTML='';
+ ANIMALS.forEach(a=>{let d=document.createElement('div');d.className='egg';d.innerHTML=`${a.e}<small>${a.n}</small>`;d.title='Spawnar '+a.n;d.onclick=()=>{let tx=Math.floor(player.x/TILE)+(Math.random()*6|0)-3,ty=Math.floor(player.y/TILE)+(Math.random()*6|0)-3;addAnimal(a.id,Math.max(0,Math.min(W-1,tx)),Math.max(0,Math.min(H-1,ty)));msg('­ƒÑÜ '+a.n+' spawnado!')};el.appendChild(d)});
+}
+
+// sons
+let AC=null;function snd(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();let o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;o.connect(g);g.connect(AC.destination);g.gain.value=0.08;o.start();o.stop(AC.currentTime+0.15)}catch(e){}}
+function puff(x,y,c){for(let i=0;i<8;i++)particles.push({x,y,vx:(Math.random()-0.5)*4,vy:(Math.random()-0.5)*4,l:30,c})}
+function msg(t){let m=document.getElementById('msg');m.textContent=t;m.style.display='block';clearTimeout(m._t);m._t=setTimeout(()=>m.style.display='none',2200)}
+
+// loop
+let last=Date.now();
+function loop(){
+ let dt=Math.min(0.05,(Date.now()-last)/1000);last=Date.now();
+ // tempo
+ time+=dt*0.4;if(time>=24){time=0;day++}
+ let isNight=time<5||time>18.5;
+ // movimento
+ let sp=(creative&&fly?320:170)*(keys['shift']?1.5:1);
+ let dx=((keys['d']||keys['arrowright'])?1:0)-((keys['a']||keys['arrowleft'])?1:0);
+ let dy=((keys['s']||keys['arrowdown'])?1:0)-((keys['w']||keys['arrowup'])?1:0);
+ if(fly&&keys[' '])dy-=1;
+ if(dx||dy){let l=Math.hypot(dx,dy);dx/=l;dy/=l;let nx=player.x+dx*sp*dt,ny=player.y+dy*sp*dt;
+  if(fly||!collide(nx,player.y))player.x=nx;
+  if(fly||!collide(player.x,ny))player.y=ny;
+  if(Math.random()<0.1)player.food=Math.max(0,player.food-dt*0.05);
+ }
+ player.x=Math.max(0,Math.min(W*TILE-32,player.x));player.y=Math.max(0,Math.min(H*TILE-32,player.y));
+ cam.x=player.x+16-cv.width/2;cam.y=player.y+16-cv.height/2;
+ // animais IA
+ animals.forEach(a=>{
+  a.t-=dt;
+  if(a.t<=0){a.t=1+Math.random()*3;let ang=Math.random()*Math.PI*2;a.vx=Math.cos(ang)*30;a.vy=Math.sin(ang)*30;if(a.id==='peixe'||a.id==='tubarao'||a.id==='golfinho'||a.id==='baleia'||a.id==='polvo'){} }
+  let dxp=(player.x-a.x),dyp=(player.y-a.y),d=Math.hypot(dxp,dyp)||1;
+  if(a.pet){
+   // pet: regenera, teleporta se longe, segue se n├úo sentado, protege dono
+   a.hp=Math.min(a.maxhp,a.hp+dt*0.5);
+   if(d>700){a.x=player.x+(Math.random()*60-30);a.y=player.y+(Math.random()*60-30)}
+   else if(!a.sit&&d>60){a.vx=dxp/d*110;a.vy=dyp/d*110}
+   else if(a.sit){a.vx*=0.9;a.vy*=0.9}
+   // protege: ataca predador perto do dono
+   let foe=animals.find(o=>!o.pet&&o.hostil&&Math.hypot(o.x-player.x,o.y-player.y)<200);
+   if(foe){let fdx=foe.x-a.x,fdy=foe.y-a.y,fd=Math.hypot(fdx,fdy)||1;a.vx=fdx/fd*130;a.vy=fdy/fd*130;if(fd<30){foe.hp-=dt*5;puff(foe.x+16,foe.y+16,'#ef4444');if(foe.hp<=0){animals.splice(animals.indexOf(foe),1);msg('­ƒª© '+a.petName+' derrotou o predador! +XP');a.level++;a.maxhp+=1;a.hp=a.maxhp;renderPets()}}}
+  }
+  else if(a.hostil&&d<220&&!creative){a.vx=dxp/d*70;a.vy=dyp/d*70;if(d<30&&(!god)){player.hp-=dt*2;if(player.hp<=0)respawn()}}
+  else if(a.tame&&d>80){a.vx=dxp/d*60;a.vy=dyp/d*60}
+  else if(!a.hostil&&d<90&&(a.id==='coelho'||a.id==='veado'||a.id==='ovelha')){a.vx=-dxp/d*60;a.vy=-dyp/d*60}
+  a.x+=a.vx*dt;a.y+=a.vy*dt;
+ });
+ if(animals.length<60&&Math.random()<0.02)spawnRandom();
+ particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.l--});particles=particles.filter(p=>p.l>0);
+ draw(isNight);
+ // hud
+ let hh=Math.ceil(Math.max(0,player.hp)/2);document.getElementById('hearts').textContent='ÔØñ´©Å'.repeat(hh)+'­ƒñì'.repeat(5-hh)+' '+'­ƒìù'.repeat(Math.ceil(player.food/2));
+ let h=Math.floor(time),m=Math.floor((time-h)*60);document.getElementById('clock').textContent=(isNight?'­ƒîÖ Noite':'ÔÿÇ´©Å Dia')+` ${day} - ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+ requestAnimationFrame(loop);
+}
+function collide(x,y){
+ let pts=[[x,y],[x+28,y],[x,y+28],[x+28,y+28]];
+ for(let [px,py] of pts){let tx=Math.floor(px/TILE),ty=Math.floor(py/TILE);if(tx<0||ty<0||tx>=W||ty>=H)return true;let b=map[ty][tx];if(BLOCKS[b]&&BLOCKS[b].solid===false)continue;if(b==='water'&&!fly){} if(b==='stone'||b==='wood'||b==='brick'||b==='leaves')return true}
+ return false;
+}
+function hash(x,y){let h=(x*374761393+y*668265263)|0;h=(h^(h>>13))*1274126177;return ((h^(h>>16))>>>0)/4294967295}
+function sunColor(t){
+ // retorna {noche 0-1, quente}
+ if(t<4.5||t>19) return {dark:0.55,warm:0};
+ if(t<6) return {dark:0.35,warm:0.6};
+ if(t<8) return {dark:0.1,warm:0.3};
+ if(t<17) return {dark:0,warm:0};
+ if(t<19) return {dark:0.25,warm:0.55};
+ return {dark:0.1,warm:0.2};
+}
+function drawMC(x,y,b,sx,sy,r1,r2,r3,now){
+ // pixel 4x4 estilo Minecraft 16x16
+ let P=4;
+ function px(ix,iy,c){ctx.fillStyle=c;ctx.fillRect(sx+ix*P,sy+iy*P,P,P)}
+ function noise(base,dark,light){
+  for(let iy=0;iy<8;iy++)for(let ix=0;ix<8;ix++){
+   let h=hash(x*8+ix,y*8+iy);
+   px(ix,iy,h>0.82?light:h<0.2?dark:base);
+  }
+ }
+ if(b==='grass'){
+  noise('#79553a','#4a3320','#8a6547');
+  for(let ix=0;ix<8;ix++)for(let iy=0;iy<2;iy++){let h=hash(x*8+ix,y*2+iy+50);px(ix,iy,h>0.4?'#6aaa5a':'#7cbd6b')}
+  ctx.fillStyle='#3d6b32';ctx.fillRect(sx,sy+TILE-3,TILE,1);
+ } else if(b==='dirt'){noise('#79553a','#4a3320','#8a6547');
+ } else if(b==='stone'||b==='coal'||b==='diamond'){
+  noise('#828282','#5f5f5f','#9a9a9a');
+  if(b==='coal'){px(2,2,'#1a1a1a');px(3,2,'#1a1a1a');px(5,5,'#1a1a1a');px(6,5,'#1a1a1a');px(3,6,'#1a1a1a')}
+  if(b==='diamond'){px(2,2,'#5ff2f2');px(3,2,'#5ff2f2');px(5,5,'#5ff2f2');px(6,5,'#5ff2f2');px(3,6,'#a5ffff');px(2,3,'#fff')}
+ } else if(b==='wood'){
+  for(let iy=0;iy<8;iy++)for(let ix=0;ix<8;ix++){px(ix,iy,(ix===0||ix===7)?'#4a3820':hash(x*8+ix,y*8+iy)>0.5?'#6b5230':'#5d4729')}
+  ctx.fillStyle='#2d6a2d';ctx.fillRect(sx+2,sy,28,10);ctx.fillStyle='#3d8a3d';ctx.fillRect(sx+6,sy+2,10,6);
+ } else if(b==='leaves'){
+  for(let iy=0;iy<8;iy++)for(let ix=0;ix<8;ix++){let h=hash(x*8+ix,y*8+iy);px(ix,iy,h>0.75?'#0f2f0f':h>0.4?'#2d6a2d':'#3d8a3d')}
+ } else if(b==='sand'){noise('#dbd29d','#b8ab72','#ece5b8');
+ } else if(b==='water'){
+  noise('#3f76e4','#2a4fb0','#5a92ff');
+  let w=Math.floor(Math.sin(now/500+x)*2);
+  ctx.fillStyle='rgba(255,255,255,.4)';ctx.fillRect(sx+4+w,sy+8,12,2);ctx.fillRect(sx+14-w,sy+20,10,2);
+ } else if(b==='snow'){noise('#eef4f5','#c2d2d6','#ffffff');
+ } else if(b==='ice'){
+  noise('#a8c8e8','#7aa8d0','#e0f0ff');
+  ctx.fillStyle='rgba(255,255,255,.6)';ctx.fillRect(sx+4,sy+4,14,2);
+ } else if(b==='flower'){
+  noise('#79553a','#4a3320','#8a6547');
+  ctx.fillStyle='#2d7a2d';ctx.fillRect(sx+14,sy+10,4,16);
+  ctx.fillStyle=r1>0.5?'#d02020':'#e8e8e8';ctx.fillRect(sx+11,sy+4,10,8);ctx.fillStyle='#ffeb3b';ctx.fillRect(sx+14,sy+6,4,4);
+ } else if(b==='torch'){
+  noise('#6b6b6b','#4a4a4a','#828282');
+  ctx.fillStyle='#6b4a20';ctx.fillRect(sx+14,sy+12,4,16);
+  ctx.fillStyle='#ffeb3b';ctx.fillRect(sx+12,sy+6,8,8);ctx.fillStyle='#ff9800';ctx.fillRect(sx+13,sy+7,6,6);ctx.fillStyle='#fff';ctx.fillRect(sx+14,sy+7,3,3);
+ } else if(b==='brick'){
+  for(let iy=0;iy<8;iy++)for(let ix=0;ix<8;ix++){let mortar=(iy===3||iy===7||((iy<3?ix===3||ix===6:ix===1||ix===5)));px(ix,iy,mortar?'#b8b8b8':'#96251f')}
+ } else if(b==='glass'){
+  ctx.fillStyle='#c8ecf5';ctx.fillRect(sx,sy,TILE,TILE);
+  ctx.fillStyle='#fff';ctx.fillRect(sx+3,sy+3,20,2);ctx.fillRect(sx+3,sy+3,2,20);
+  ctx.strokeStyle='#7aa8b8';ctx.strokeRect(sx+.5,sy+.5,TILE-1,TILE-1);
+ } else if(b==='plank'){
+  for(let iy=0;iy<8;iy++)for(let ix=0;ix<8;ix++){px(ix,iy,iy%4===3?'#5d3f1d':'#a67c3f')}
+  ctx.fillStyle='#5d3f1d';ctx.fillRect(sx+15,sy,2,TILE);
+ } else {noise('#7cbd6b','#4a7a3d','#95d485')}
+ // borda pixelada MC
+ ctx.strokeStyle='rgba(0,0,0,.18)';ctx.strokeRect(sx+.5,sy+.5,TILE-1,TILE-1);
+}
+function draw(isNight){
+ let now=Date.now();
+ ctx.imageSmoothingEnabled=false;
+ ctx.fillStyle='#000';ctx.fillRect(0,0,cv.width,cv.height);
+ let x0=Math.max(0,Math.floor(cam.x/TILE)),y0=Math.max(0,Math.floor(cam.y/TILE));
+ let x1=Math.min(W-1,x0+Math.ceil(cv.width/TILE)+1),y1=Math.min(H-1,y0+Math.ceil(cv.height/TILE)+1);
+ for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){
+  let b=map[y][x],sx=Math.round(x*TILE-cam.x),sy=Math.round(y*TILE-cam.y);
+  let r1=hash(x,y),r2=hash(y,x+99),r3=hash(x+7,y+13);
+  drawMC(x,y,b,sx,sy,r1,r2,r3,now);
+ }
+ // sombras + animais com balan├ºo realista
+ animals.forEach(a=>{
+  let sx=a.x-cam.x,sy=a.y-cam.y;if(sx<-60||sy<-60||sx>cv.width+60||sy>cv.height+60)return;
+  ctx.fillStyle='rgba(0,0,0,.32)';ctx.beginPath();ctx.ellipse(sx+13,sy+27,11,4.5,0,0,7);ctx.fill();
+  let bob=Math.sin(now/350+a.x)*2;
+  let big=(a.id==='elefante'||a.id==='baleia'||a.id==='girafa');
+  ctx.font=(big?'30px':'24px')+' serif';ctx.fillText(a.e,sx,sy+24+bob);
+  if(a.pet){ctx.font='bold 11px sans-serif';ctx.fillStyle='#fff';ctx.strokeStyle='#000';ctx.lineWidth=3;let label='­ƒÆÜ '+a.petName+' Nv'+a.level;ctx.strokeText(label,sx-10,sy-8+bob);ctx.fillText(label,sx-10,sy-8+bob);ctx.fillStyle='#000';if(a.sit){ctx.font='12px serif';ctx.fillText('­ƒ¬æ',sx+20,sy+6)}}else if(a.tame){ctx.font='12px serif';ctx.fillText('­ƒÆÜ',sx+18,sy+6)}if(a.hostil&&!a.pet){ctx.font='11px serif';ctx.fillText('­ƒÿí',sx-2,sy+4)}});
+ // player com sombra realista
+ let px=player.x-cam.x,py=player.y-cam.y;
+ ctx.fillStyle='rgba(0,0,0,.4)';ctx.beginPath();ctx.ellipse(px+14,py+29,12,5,0,0,7);ctx.fill();
+ let skinE=(SKINS[player.skin]||SKINS.steve).e;
+ let walk=Math.sin(now/180)*(Math.abs((keys['w']||keys['a']||keys['s']||keys['d'])?1:0))*2;
+ if(player.skin==='duck'){
+  ctx.font='32px serif';ctx.fillText('­ƒªå',px-2,py+28+walk);
+  ctx.font='12px serif';ctx.fillText('Ô£¿',px+20,py+6);
+ } else {
+  ctx.font='28px serif';ctx.fillText(creative?skinE:'ÔøÅ´©Å'+skinE,px-2,py+28+walk);
+ }
+ ctx.fillStyle='#000a';ctx.fillRect(px-2,py-12,36,6);ctx.fillStyle=player.hp>5?'#22c55e':'#ef4444';ctx.fillRect(px-2,py-12,36*Math.max(0,player.hp)/10,6);
+ if(fly&&creative){ctx.font='14px serif';ctx.fillText('­ƒòè´©Å',px+20,py+4)}
+ particles.forEach(p=>{ctx.fillStyle=p.c;ctx.fillRect(p.x-cam.x,p.y-cam.y,4,4)});
+ // noite estilo Minecraft: escurece simples
+ if(isNight){ctx.fillStyle='rgba(0,0,25,.42)';ctx.fillRect(0,0,cv.width,cv.height)}
+ else if(time>17||time<6.5){ctx.fillStyle='rgba(255,130,30,.12)';ctx.fillRect(0,0,cv.width,cv.height)}
+}
+
+// botoes
 document.getElementById('creativeBtn').onclick=toggleCreative;
-document.getElementById('invBtn').onclick=togglePanel;
+document.getElementById('invBtn').onclick=toggleInv;
 document.getElementById('flyChk').onchange=e=>fly=e.target.checked;
 document.getElementById('godChk').onchange=e=>god=e.target.checked;
-document.getElementById('btnDay').onclick=()=>{time=12;msg('☀️ Dia!')};
-document.getElementById('btnNight').onclick=()=>{time=22;msg('🌙 Noite!')};
-document.getElementById('btnHeal').onclick=()=>{player.hp=10;msg('💖 Curado!')};
-document.getElementById('btnSave').onclick=()=>{localStorage.setItem('mc3d',JSON.stringify({vox:[...voxels],player,day,time,found:[...found],pets:animals.filter(a=>a.pet).map(a=>({id:a.d.id,name:a.petName,level:a.level}))}));msg('💾 Salvo!')};
-document.getElementById('btnLoad').onclick=()=>{let s=localStorage.getItem('mc3d');if(!s){msg('⚠️ Sem save!');return}let d=JSON.parse(s);voxels=new Map(d.vox);Object.assign(player,d.player);day=d.day;time=d.time;found=new Set(d.found);rebuild();renderDex();msg('📂 Carregado!')};
-document.getElementById('btnNew').onclick=()=>{genWorld();msg('🌱 Novo mundo!')};
-document.getElementById('btnRain').onclick=()=>{for(let i=0;i<15;i++)spawnAnimal(true);msg('🌧️ Chuva de animais!')};
+document.getElementById('btnDay').onclick=()=>{time=12;msg('ÔÿÇ´©Å Virou dia!')};
+document.getElementById('btnNight').onclick=()=>{time=22;msg('­ƒîÖ Virou noite! Cuidado com predadores ­ƒÿ▒')};
+document.getElementById('btnHeal').onclick=()=>{player.hp=10;player.food=10;msg('­ƒÆû Vida cheia!')};
+document.getElementById('btnClear').onclick=()=>{animals=[];msg('­ƒùæ´©Å Animais removidos')};
+document.getElementById('btnSave').onclick=()=>{localStorage.setItem('mc_save',JSON.stringify({map,player,day,time,found:[...found],pets:animals.filter(a=>a.pet)}));msg('­ƒÆ¥ Mundo + pets salvos!')};
+document.getElementById('btnLoad').onclick=()=>{let s=localStorage.getItem('mc_save');if(!s){msg('ÔÜá´©Å Nenhum save!');return}let d=JSON.parse(s);map=d.map;player=d.player;day=d.day;time=d.time;found.clear();d.found.forEach(f=>found.add(f));if(d.pets){d.pets.forEach(p=>{if(!animals.find(a=>a.pet&&a.petName===p.petName))animals.push(p)})}renderDex();renderPets();document.getElementById('foundN').textContent=found.size;msg('­ƒôé Mundo + pets carregados!')};
 document.getElementById('btnCallPets').onclick=callPets;
-document.getElementById('btnHealPets').onclick=()=>{animals.forEach(a=>{if(a.pet)a.hp=a.maxhp});msg('💖 Pets curados!');renderPets()};
+document.getElementById('btnHealPets').onclick=healPets;
+document.getElementById('btnNew').onclick=()=>{genWorld();msg('­ƒî▒ Novo mundo gerado!')};
+document.getElementById('btnRain').onclick=()=>{for(let i=0;i<20;i++)spawnRandom(true);msg('­ƒîº´©Å Chuva de animais!! ­ƒÄë')};
+document.getElementById('menuBtn').onclick=()=>document.getElementById('sidebar').classList.toggle('open');
 document.getElementById('skinDuck').onclick=()=>setSkin('duck');
 document.getElementById('skinSteve').onclick=()=>setSkin('steve');
 document.getElementById('skinWitch').onclick=()=>setSkin('witch');
-// loop
-let last=performance.now();
-function loop(now){
- requestAnimationFrame(loop);
- let dt=Math.min(0.05,(now-last)/1000);last=now;
- time+=dt*0.3;if(time>=24){time=0;day++}
- let isNight=time<5||time>18.5;
- scene.background.set(isNight?0x0b1020:(time>17||time<6.5?0xff9a4d:0x87ceeb));
- scene.fog.color.copy(scene.background);
- sun.intensity=isNight?0.15:0.95;
- sun.position.set(player.x+20*Math.cos(time/24*Math.PI*2),30,player.z+20*Math.sin(time/24*Math.PI*2));
- // movimento 1a pessoa
- let sp=(fly?10:(keys['shift']?7:4.5));
- let f=(keys['w']||keys['arrowup']?1:0)-(keys['s']||keys['arrowdown']?1:0);
- let s=(keys['d']||keys['arrowright']?1:0)-(keys['a']||keys['arrowleft']?1:0);
- let sin=Math.sin(yaw),cos=Math.cos(yaw);
- let dx=(-sin*f+cos*s)*sp*dt, dz=(-cos*f-sin*s)*sp*dt;
- player.x=Math.max(1,Math.min(WS-2,player.x+dx));player.z=Math.max(1,Math.min(WS-2,player.z+dz));
- if(fly){
-  if(keys[' '])player.y+=8*dt;if(keys['shift'])player.y-=8*dt;
-  player.vy=0;
- } else {
-  player.vy-=18*dt;player.y+=player.vy*dt;
-  let g=groundY(player.x,player.z);
-  if(player.y<=g){player.y=g;player.vy=0;if(keys[' '])player.vy=6.5}
- }
- camera.position.set(player.x,player.y+1.6,player.z);
- camera.rotation.order='YXZ';camera.rotation.y=yaw;camera.rotation.x=pitch;
- document.getElementById('hand').style.transform=`translateY(${Math.sin(now/200)*(f||s?4:0)}px) rotate(${(f||s)?-8:0}deg)`;
- // animais IA
- animals.forEach(a=>{
-  a.t-=dt;let p=a.mesh.position;
-  if(a.t<=0){a.t=1+Math.random()*3;let an=Math.random()*Math.PI*2;a.vx=Math.cos(an);a.vz=Math.sin(an)}
-  let dxp=player.x-p.x,dzp=player.z-p.z,d=Math.hypot(dxp,dzp)||1;
-  if(a.pet){a.hp=Math.min(a.maxhp,a.hp+dt*0.5);if(d>25){p.x=player.x+(Math.random()*4-2);p.z=player.z+(Math.random()*4-2)}else if(!a.sit&&d>2){p.x+=dxp/d*4*dt;p.z+=dzp/d*4*dt}}
-  else if(a.d.hostil&&d<8&&!creative){p.x+=dxp/d*2*dt;p.z+=dzp/d*2*dt;if(d<1.2&&!god){player.hp-=dt*3;if(player.hp<=0){player.hp=10;player.x=WS/2;player.z=WS/2;player.y=groundY(player.x,player.z)+1;msg('💀 Você renasceu!')}}}
-  else{p.x+=a.vx*dt;p.z+=a.vz*dt;p.x=Math.max(1,Math.min(WS-2,p.x));p.z=Math.max(1,Math.min(WS-2,p.z))}
-  p.y=groundY(p.x,p.z)+0.6+Math.sin(now/400+p.x)*0.08;
-  p.lookAt(camera.position);
- });
- let hh=Math.ceil(Math.max(0,player.hp)/2);document.getElementById('hearts').textContent='❤️'.repeat(hh)+'🤍'.repeat(5-hh);
- document.getElementById('clock').textContent=(isNight?'🌙 Noite ':'☀️ Dia ')+day+' - '+String(Math.floor(time)).padStart(2,'0')+':00';
- renderer.render(scene,camera);
-}
-resize();addEventListener('resize',resize);
-genWorld();setSkin('duck');renderHot();renderCreative();renderDex();renderPets();
-requestAnimationFrame(loop);
+
+genWorld();setSkin('duck');renderHot();renderCreative();renderDex();renderPets();msg('­ƒîì Bem-vinda Maria Luiza! Clique nos animais para ter pets ­ƒÉ¥­ƒªå!');loop();
 </script>
 </body>
 </html>
