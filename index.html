@@ -59,6 +59,15 @@ kbd{background:#000;border:1px solid #555;border-radius:4px;padding:0 5px;font-s
 <h1>🌍 MiniCraft Mundo Animal</h1>
 <div class="card"><b>👧 Feito por Maria Luiza - 4A</b><br><span style="font-size:13px">Explore, minere, construa e encontre TODOS os animais do mundo!</span></div>
 <div class="card">
+<h2>🦆 Skin de Pato</h2>
+<div class="row" id="skinRow">
+<button class="btn alt" id="skinSteve">🧑 Steve</button>
+<button class="btn" id="skinDuck">🦆 Pato</button>
+<button class="btn warn" id="skinWitch">🧙 Bruxo</button>
+</div>
+<div style="font-size:13px;margin-top:6px">Skin atual: <b id="skinName">🧑 Steve</b><br>Tecla <kbd>T</kbd> troca rapidinho!</div>
+</div>
+<div class="card">
 <h2>🎮 Como jogar</h2>
 <div id="help">
 <b>Mover:</b> <kbd>WASD</kbd> ou <kbd>Setas</kbd><br>
@@ -66,6 +75,7 @@ kbd{background:#000;border:1px solid #555;border-radius:4px;padding:0 5px;font-s
 <b>Colocar:</b> clique direito<br>
 <b>Trocar bloco:</b> <kbd>1-9</kbd> ou clique na hotbar<br>
 <b>Criativo:</b> <kbd>C</kbd> (voar com <kbd>Espaço</kbd>/voo + vida infinita)<br>
+<b>Skin pato:</b> <kbd>T</kbd> ou botão 🦆<br>
 <b>Inventário criativo:</b> <kbd>E</kbd><br>
 <b>Domar/interagir:</b> clique no animal<br>
 <b>No celular:</b> toque para andar/quebrar
@@ -181,7 +191,9 @@ const ANIMALS=[
 document.getElementById('totalN').textContent=ANIMALS.length;
 
 // Mundo
-let map=[], player, animals=[], particles=[], time=12, day=1, creative=false, fly=false, god=true;
+let map=[], player={skin:'steve'}, animals=[], particles=[], time=12, day=1, creative=false, fly=false, god=true;
+const SKINS={steve:{e:'🧑',n:'Steve'},duck:{e:'🦆',n:'Pato'},witch:{e:'🧙',n:'Bruxo'}};
+function setSkin(s){player.skin=s;document.getElementById('skinName').textContent=SKINS[s].e+' '+SKINS[s].n;msg('🦆 Skin trocada: '+SKINS[s].e+' '+SKINS[s].n+'!');snd(700)}
 let inv={}, hotbar=['grass','wood','stone','plank','brick','glass','torch','flower','diamond'], sel=0;
 BLOCK_KEYS.forEach(k=>inv[k]=creative?999:0);
 inv.grass=20;inv.wood=10;inv.dirt=10;
@@ -201,7 +213,7 @@ function genWorld(){
  }map.push(r)}
  // lagos
  for(let i=0;i<6;i++){let cx=Math.random()*W|0,cy=Math.random()*H|0;for(let d=0;d<40;d++){let x=cx+(Math.random()*12|0)-6,y=cy+(Math.random()*12|0)-6;if(x>=0&&y>=0&&x<W&&y<H)map[y][x]='water'}}
- player={x:W/2*TILE,y:H/2*TILE,hp:10,food:10};
+  player={x:W/2*TILE,y:H/2*TILE,hp:10,food:10,skin:(player&&player.skin)||'duck'};
  animals=[];
  for(let i=0;i<70;i++) spawnRandom(false);
 }
@@ -229,6 +241,7 @@ addEventListener('keydown',e=>{
  if(e.key>='1'&&e.key<='9'){sel=+e.key-1;renderHot()}
  if(e.key.toLowerCase()==='c') toggleCreative();
  if(e.key.toLowerCase()==='e') toggleInv();
+ if(e.key.toLowerCase()==='t'){player.skin=player.skin==='duck'?'steve':player.skin==='steve'?'witch':'duck';setSkin(player.skin)}
  if(e.key.toLowerCase()===' '&&fly) e.preventDefault();
 });
 addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
@@ -357,7 +370,15 @@ function draw(isNight){
  animals.forEach(a=>{let sx=a.x-cam.x,sy=a.y-cam.y;if(sx<-40||sy<-40||sx>cv.width+40||sy>cv.height+40)return;ctx.font=(a.id==='elefante'||a.id==='baleia'||a.id==='girafa'?'30px':'24px')+' serif';ctx.fillText(a.e,sx,sy+24);if(a.tame){ctx.font='12px serif';ctx.fillText('💚',sx+18,sy+6)}if(a.hostil){ctx.font='11px serif';ctx.fillText('😡',sx-2,sy+4)}});
  // player
  let px=player.x-cam.x,py=player.y-cam.y;
- ctx.font='28px serif';ctx.fillText(creative?'🧙':'⛏️🧑',px-2,py+28);
+ let skinE=(SKINS[player.skin]||SKINS.steve).e;
+ if(player.skin==='duck'){
+  // corpinho do pato: sombra + pato grande + bico
+  ctx.fillStyle='rgba(0,0,0,.3)';ctx.beginPath();ctx.ellipse(px+14,py+28,12,5,0,0,7);ctx.fill();
+  ctx.font='32px serif';ctx.fillText('🦆',px-2,py+28);
+  ctx.font='12px serif';ctx.fillText('✨',px+20,py+6);
+ } else {
+  ctx.font='28px serif';ctx.fillText(creative?skinE:'⛏️'+skinE,px-2,py+28);
+ }
  ctx.fillStyle='#000a';ctx.fillRect(px-2,py-12,36,6);ctx.fillStyle=player.hp>5?'#22c55e':'#ef4444';ctx.fillRect(px-2,py-12,36*Math.max(0,player.hp)/10,6);
  if(fly&&creative){ctx.font='14px serif';ctx.fillText('🕊️',px+20,py+4)}
  particles.forEach(p=>{ctx.fillStyle=p.c;ctx.fillRect(p.x-cam.x,p.y-cam.y,4,4)});
@@ -380,8 +401,11 @@ document.getElementById('btnLoad').onclick=()=>{let s=localStorage.getItem('mc_s
 document.getElementById('btnNew').onclick=()=>{genWorld();msg('🌱 Novo mundo gerado!')};
 document.getElementById('btnRain').onclick=()=>{for(let i=0;i<20;i++)spawnRandom(true);msg('🌧️ Chuva de animais!! 🎉')};
 document.getElementById('menuBtn').onclick=()=>document.getElementById('sidebar').classList.toggle('open');
+document.getElementById('skinDuck').onclick=()=>setSkin('duck');
+document.getElementById('skinSteve').onclick=()=>setSkin('steve');
+document.getElementById('skinWitch').onclick=()=>setSkin('witch');
 
-genWorld();renderHot();renderCreative();renderDex();msg('🌍 Bem-vinda Maria Luiza! Aperte C para o CRIATIVO 🎨');loop();
+genWorld();setSkin('duck');renderHot();renderCreative();renderDex();msg('🌍 Bem-vinda Maria Luiza! Você é um patinho 🦆! Aperte C para o CRIATIVO 🎨');loop();
 </script>
 </body>
 </html>
