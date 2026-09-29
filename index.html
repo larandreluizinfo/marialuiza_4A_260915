@@ -67,7 +67,7 @@ kbd{background:#000;border:1px solid #555;border-radius:4px;padding:0 5px;font-s
 <div id="hotbar"></div>
 <div id="sidebar">
 <h1>🌍 MiniCraft 3D — Livia 4A</h1>
-<div class="card"><b>👧 Feito por Livia - 4A</b><br><span style="font-size:13px">Primeira pessoa realista! Explore, minere, construa e adote o cachorro 🐶 e o gato 🐱!</span></div>
+<div class="card"><b>👧 Feito por Livia - 4A</b><br><span style="font-size:13px">Mundo GRANDE em primeira pessoa! Explore as <b>vilas 🏘️</b>, minere, construa e adote cachorro 🐶, gato 🐱, vaca 🐄, ovelha 🐑 e porco 🐷. Sem animais selvagens!</span></div>
 <div class="card"><h2>🎮 Como jogar (1ª pessoa)</h2>
 <div id="help">
 <b>Olhar:</b> mouse | <b>Mover:</b> <kbd>WASD</kbd><br>
@@ -89,7 +89,7 @@ kbd{background:#000;border:1px solid #555;border-radius:4px;padding:0 5px;font-s
 <button class="btn alt" id="btnLoad">📂 Carregar</button>
 <button class="btn" id="btnNew">🌱 Novo mundo</button></div></div>
 <div class="card"><h2>🐾 Pets (<span id="petN">0</span>)</h2>
-<div style="font-size:12px;margin-bottom:6px">Mire no cachorro 🐶 ou no gato 🐱 e clique para adotar! Pets te seguem e te protegem. 💚</div>
+<div style="font-size:12px;margin-bottom:6px">Mire no cachorro 🐶, gato 🐱, vaca 🐄, ovelha 🐑 ou porco 🐷 e clique para adotar! Todos são mansos e viram pets! 💚</div>
 <div id="petList" style="font-size:13px;display:flex;flex-direction:column;gap:6px;max-height:200px;overflow:auto"></div>
 <div class="row" style="margin-top:6px">
 <button class="btn" id="btnCallPets">📣 Chamar (P)</button>
@@ -102,11 +102,11 @@ kbd{background:#000;border:1px solid #555;border-radius:4px;padding:0 5px;font-s
 <h2>✨ Poderes</h2>
 <label><input type="checkbox" id="flyChk"> 🕊️ Voar (Espaço sobe / Shift desce)</label><br>
 <label><input type="checkbox" id="godChk" checked> 🛡️ Vida infinita</label><br>
-<button class="btn" id="btnRain">🌧️ Chuva de animais!</button>
+<button class="btn" id="btnRain">🌧️ Chuva de bichinhos!</button>
 </div>
 <div class="card"><h2>📖 Enciclopédia (<span id="foundN">0</span>/<span id="totalN">0</span>)</h2>
 <div id="dex" style="font-size:13px;max-height:200px;overflow:auto"></div></div>
-<div class="card" style="font-size:12px">💡 Dica: ative o CRIATIVO (C) para voar, vida infinita e spawnar cachorro 🐶 e gato 🐱! Mire + clique direito no chão para colocar blocos e tochas que iluminam de verdade à noite!</div>
+<div class="card" style="font-size:12px">💡 Dica: explore as <b>vilas 🏘️</b> com casas, praça iluminada e curral com vacas, ovelhas e porcos! Ative o CRIATIVO (C) para voar e spawnar bichinhos! 🐶</div>
 </div>
 <div id="touchUI">
 <div style="display:flex;gap:8px;pointer-events:auto">
@@ -119,7 +119,7 @@ kbd{background:#000;border:1px solid #555;border-radius:4px;padding:0 5px;font-s
 <div id="lock">
 <h1>🌍 MiniCraft Realista 3D</h1>
 <p><b>👧 Mundo da Livia — 4A</b><br>
-Mundo voxel em <b>primeira pessoa</b> com sombras realistas, sol e lua, tochas que iluminam, água animada, vulcão de lava, árvores, nuvens e os pets <b>cachorro 🐶 e gato 🐱</b>!<br><br>
+Mundo voxel GRANDE em <b>primeira pessoa</b> com sombras realistas, sol e lua, tochas que iluminam, água animada, vulcão, árvores, nuvens, <b>3 vilas 🏘️</b> com casas e currais, e bichos mansos: <b>cachorro 🐶, gato 🐱, vaca 🐄, ovelha 🐑 e porco 🐷</b> — sem animais selvagens!<br><br>
 🖱️ Clique em <b>JOGAR</b> para travar o mouse • <b>WASD</b> move • <b>Espaço</b> pula • <b>clique esquerdo</b> quebra • <b>clique direito</b> coloca • <b>C</b> criativo • <b>E</b> inventário</p>
 <button id="playBtn">▶ JOGAR EM 1ª PESSOA</button>
 <p style="font-size:12px;opacity:.8">📱 No celular use os botões da tela para andar e interagir</p>
@@ -151,10 +151,13 @@ const BLOCK_KEYS=Object.keys(BLOCKS);
 const ANIMALS=[
  {id:'cachorro',e:'🐶',n:'Cachorro',bio:['grass'],hostil:false,cor:0xc98d5e,sz:0.9},
  {id:'gato',e:'🐱',n:'Gato',bio:['grass'],hostil:false,cor:0xf5b942,sz:0.6},
+ {id:'vaca',e:'🐄',n:'Vaca',bio:['grass'],hostil:false,cor:0x8d6e63,sz:1.1},
+ {id:'ovelha',e:'🐑',n:'Ovelha',bio:['grass'],hostil:false,cor:0xf1f5f9,sz:1.0},
+ {id:'porco',e:'🐷',n:'Porco',bio:['grass'],hostil:false,cor:0xf4a7c3,sz:0.9},
 ];
 document.getElementById('totalN').textContent=ANIMALS.length;
-// ============ ESTADO ============
-const WS=96, BS=2, WATER_Y=0.6;
+// ============ ESTADO (mundo grande) ============
+const WS=128, BS=2, WATER_Y=0.6;
 let mapType=[], mapH=[], player={hp:10,food:10}, animals=[], placed=[], torches=[];
 let creative=false, fly=false, god=true, time=12, day=1;
 let inv={}, hotbar=['grass','wood','stone','plank','brick','glass','torch','flower','diamond'], sel=0;
@@ -165,8 +168,8 @@ const PET_NAMES=['Rex','Thor','Bob','Max','Luna','Mimi','Mel','Floquinho','Pipoc
 const container=document.getElementById('game');
 const scene=new THREE.Scene();
 scene.background=new THREE.Color(0x87ceeb);
-scene.fog=new THREE.FogExp2(0xbfd9ff,0.012);
-const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,0.1,600);
+scene.fog=new THREE.FogExp2(0xbfd9ff,0.008);
+const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,0.1,800);
 const renderer=new THREE.WebGLRenderer({antialias:true});
 renderer.setSize(innerWidth,innerHeight);
 renderer.shadowMap.enabled=true;
@@ -178,7 +181,7 @@ addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updat
 const hemi=new THREE.HemisphereLight(0xbfd9ff,0x3d7a34,0.9); scene.add(hemi);
 const sun=new THREE.DirectionalLight(0xffffff,2.2);
 sun.castShadow=true; sun.shadow.mapSize.set(2048,2048);
-sun.shadow.camera.left=-60;sun.shadow.camera.right=60;sun.shadow.camera.top=60;sun.shadow.camera.bottom=-60;sun.shadow.camera.far=300;
+sun.shadow.camera.left=-85;sun.shadow.camera.right=85;sun.shadow.camera.top=85;sun.shadow.camera.bottom=-85;sun.shadow.camera.far=400;
 scene.add(sun); scene.add(sun.target);
 const moonL=new THREE.DirectionalLight(0x8ea2ff,0.0); scene.add(moonL);
 // céu: sol, lua, estrelas, nuvens
@@ -187,7 +190,7 @@ const moonMesh=new THREE.Mesh(new THREE.SphereGeometry(5,16,16),new THREE.MeshBa
 const starGeo=new THREE.BufferGeometry(); {const p=[];for(let i=0;i<600;i++){const t=Math.random()*Math.PI*2,ph=Math.random()*Math.PI/2;const r=450;p.push(Math.cos(t)*Math.cos(ph)*r,Math.sin(ph)*r+10,Math.sin(t)*Math.cos(ph)*r)}starGeo.setAttribute('position',new THREE.Float32BufferAttribute(p,3));}
 const stars=new THREE.Points(starGeo,new THREE.PointsMaterial({color:0xffffff,size:1.6,sizeAttenuation:false,transparent:true,opacity:0})); scene.add(stars);
 const clouds=[]; const cloudMat=new THREE.MeshStandardMaterial({color:0xffffff,transparent:true,opacity:0.75,roughness:1});
-for(let i=0;i<14;i++){const g=new THREE.Group();for(let j=0;j<4;j++){const m=new THREE.Mesh(new THREE.BoxGeometry(8+Math.random()*10,2,5+Math.random()*5),cloudMat);m.position.set(j*6-9+Math.random()*3,Math.random()*1.5,Math.random()*4-2);g.add(m)}g.position.set(Math.random()*240-120,42+Math.random()*10,Math.random()*240-120);scene.add(g);clouds.push(g)}
+for(let i=0;i<18;i++){const g=new THREE.Group();for(let j=0;j<4;j++){const m=new THREE.Mesh(new THREE.BoxGeometry(8+Math.random()*10,2,5+Math.random()*5),cloudMat);m.position.set(j*6-9+Math.random()*3,Math.random()*1.5,Math.random()*4-2);g.add(m)}g.position.set(Math.random()*320-160,42+Math.random()*10,Math.random()*320-160);scene.add(g);clouds.push(g)}
 // água e lava
 const waterMat=new THREE.MeshStandardMaterial({color:0x1e90d6,transparent:true,opacity:0.72,roughness:0.15,metalness:0.35});
 const waterMesh=new THREE.Mesh(new THREE.PlaneGeometry(WS*BS+60,WS*BS+60),waterMat);
@@ -195,8 +198,10 @@ waterMesh.rotation.x=-Math.PI/2; waterMesh.position.set(0,WATER_Y,0); waterMesh.
 const lavaMat=new THREE.MeshStandardMaterial({color:0xff5500,emissive:0xff4400,emissiveIntensity:2.2,roughness:0.6});
 // ============ MUNDO ============
 function noise2(x,z){return Math.sin(x*0.09)*Math.cos(z*0.08)*1.6+Math.sin((x+z)*0.035)*1.8+Math.sin(x*0.02-z*0.025)*2.0+Math.sin(x*0.16)*Math.cos(z*0.14)*0.35}
+let villages=[];
+function inVillage(x,z,r=0){return villages.some(v=>Math.hypot(x-v.x,z-v.z)<v.r+r)}
 function genData(){
- mapType=[];mapH=[];
+ mapType=[];mapH=[];villages=[];
  for(let z=0;z<WS;z++){let rT=[],rH=[];
   for(let x=0;x<WS;x++){
    let n=noise2(x,z); let h=Math.round(n); h=Math.max(-2,Math.min(5,h));
@@ -204,8 +209,8 @@ function genData(){
    if(h<=-1) t='water';
    else if(n<-1.6) t='sand';
    else if(n>3.4) t='stone';
-   else if(z<10) t='snow';
-   else if(z>WS-11) t='sand';
+   else if(z<12) t='snow';
+   else if(z>WS-13) t='sand';
    else if(Math.random()<0.02) t='flower';
    else if(Math.random()<0.012) t='dirt';
    let cx=Math.abs(x-WS/2),cz=Math.abs(z-WS/2);
@@ -215,6 +220,28 @@ function genData(){
  // vulcão de lava
  const vx=Math.floor(WS*0.8),vz=Math.floor(WS*0.2);
  for(let z=0;z<WS;z++)for(let x=0;x<WS;x++){const d=Math.hypot(x-vx,z-vz);if(d<8){mapType[z][x]='stone';mapH[z][x]=Math.max(mapH[z][x],3+Math.round((8-d)/3))}if(d<3){mapType[z][x]='lava';mapH[z][x]=4}}
+ // vilas: 3 centros longe do spawn e do vulcão, em grama
+ const spots=[[0.30,0.68],[0.62,0.60],[0.42,0.32]];
+ spots.forEach(([fx,fz],i)=>{
+  let bx=Math.floor(WS*fx),bz=Math.floor(WS*fz);
+  // procura grama por perto
+  for(let t=0;t<40;t++){const cx=Math.floor(WS*fx)+(Math.random()*16|0)-8,cz=Math.floor(WS*fz)+(Math.random()*16|0)-8;
+   if(cx>6&&cz>6&&cx<WS-7&&cz<WS-7&&mapType[cz][cx]==='grass'&&Math.hypot(cx-vx,cz-vz)>14&&Math.hypot(cx-WS/2,cz-WS/2)>10){bx=cx;bz=cz;break}}
+  villages.push({x:bx,z:bz,r:11,seed:i});
+ });
+ // achata o terreno das vilas e faz ruas de caminho
+ villages.forEach(v=>{
+  for(let z=0;z<WS;z++)for(let x=0;x<WS;x++){
+   const d=Math.hypot(x-v.x,z-v.z);
+   if(d<v.r&&mapType[z][x]!=='water'){mapH[z][x]=1;if(mapType[z][x]!=='flower')mapType[z][x]='grass'}
+   if(d<v.r+1&&mapType[z][x]==='water'){mapType[z][x]='sand';mapH[z][x]=0}
+  }
+  // ruas em cruz + praça
+  for(let k=-v.r;k<=v.r;k++){
+   if(mapType[v.z]&&mapType[v.z][v.x+k]!=='water'&&v.x+k>=0&&v.x+k<WS)mapType[v.z][v.x+k]='path';
+   if(mapType[v.z+k]&&mapType[v.z+k][v.x]!=='water'&&v.z+k>=0&&v.z+k<WS)mapType[v.z+k][v.x]='path';
+  }
+ });
  return {vx,vz};
 }
 let volcano={vx:0,vz:0};
@@ -242,8 +269,8 @@ function buildTerrain(){
  groundMesh.instanceMatrix.needsUpdate=true; if(groundMesh.instanceColor)groundMesh.instanceColor.needsUpdate=true;
  scene.add(groundMesh);
 }
-const treeGroup=new THREE.Group(), decoGroup=new THREE.Group(), lavaGroup=new THREE.Group();
-scene.add(treeGroup,decoGroup,lavaGroup);
+const treeGroup=new THREE.Group(), decoGroup=new THREE.Group(), lavaGroup=new THREE.Group(), villageGroup=new THREE.Group();
+scene.add(treeGroup,decoGroup,lavaGroup,villageGroup);
 const trunkMat=new THREE.MeshStandardMaterial({color:0x6b4423,roughness:1});
 const leafMat=new THREE.MeshStandardMaterial({color:0x2d8a3e,roughness:1});
 const snowLeafMat=new THREE.MeshStandardMaterial({color:0xdfe9f5,roughness:1});
@@ -256,11 +283,12 @@ function groundYAt(wx,wz){
  return h*0.9+BS/2;
 }
 function buildDeco(){
- treeGroup.clear();decoGroup.clear();lavaGroup.clear();torches.forEach(t=>scene.remove(t.light));torches=[];
- for(let i=0;i<110;i++){
+ treeGroup.clear();decoGroup.clear();lavaGroup.clear();villageGroup.clear();torches.forEach(t=>scene.remove(t.light));torches=[];
+ for(let i=0;i<150;i++){
   const x=(Math.random()*WS|0),z=(Math.random()*WS|0);
   if(mapType[z][x]!=='grass')continue;
   if(Math.hypot(x-volcano.vx,z-volcano.vz)<10)continue;
+  if(inVillage(x,z,4))continue;
   const wx=(x-WS/2)*BS,wz=(z-WS/2)*BS,gy=groundYAt(wx,wz);
   const trunk=new THREE.Mesh(new THREE.CylinderGeometry(0.35,0.5,3.4,7),trunkMat);
   trunk.position.set(wx,gy+1.7,wz);trunk.castShadow=true;treeGroup.add(trunk);
@@ -270,9 +298,9 @@ function buildDeco(){
  // grama alta + flores
  const bladeGeo=new THREE.ConeGeometry(0.09,0.7,4);
  const bladeMat=new THREE.MeshStandardMaterial({color:0x3d8a34,roughness:1});
- const blades=new THREE.InstancedMesh(bladeGeo,bladeMat,900);
- {const m=new THREE.Matrix4();for(let i=0;i<900;i++){const wx=(Math.random()-0.5)*WS*BS,wz=(Math.random()-0.5)*WS*BS;const gy=groundYAt(wx,wz);m.makeTranslation(wx,gy+0.3,wz);blades.setMatrixAt(i,m)}scene.add(blades);decoGroup.add(blades);blades.parent!==decoGroup&&0}
- for(let i=0;i<70;i++){const wx=(Math.random()-0.5)*WS*BS,wz=(Math.random()-0.5)*WS*BS;const gy=groundYAt(wx,wz);
+ const blades=new THREE.InstancedMesh(bladeGeo,bladeMat,1300);
+ {const m=new THREE.Matrix4();for(let i=0;i<1300;i++){const wx=(Math.random()-0.5)*WS*BS,wz=(Math.random()-0.5)*WS*BS;const gy=groundYAt(wx,wz);m.makeTranslation(wx,gy+0.3,wz);blades.setMatrixAt(i,m)}scene.add(blades);decoGroup.add(blades);blades.parent!==decoGroup&&0}
+ for(let i=0;i<100;i++){const wx=(Math.random()-0.5)*WS*BS,wz=(Math.random()-0.5)*WS*BS;const gy=groundYAt(wx,wz);
   const f=new THREE.Mesh(new THREE.SphereGeometry(0.16,8,8),flowerMats[i%flowerMats.length]);f.position.set(wx,gy+0.35,wz);decoGroup.add(f);
   const st=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.03,0.4,5),bladeMat);st.position.set(wx,gy+0.15,wz);decoGroup.add(st)}
  // lava brilhante no vulcão
@@ -280,7 +308,72 @@ function buildDeco(){
   const wx=(x-WS/2)*BS,wz=(z-WS/2)*BS,gy=mapH[z][x]*0.9+BS/2;
   const l=new THREE.Mesh(new THREE.BoxGeometry(BS,0.3,BS),lavaMat);l.position.set(wx,gy+0.1,wz);lavaGroup.add(l);
   if(Math.random()<0.06){const li=new THREE.PointLight(0xff5500,8,14);li.position.set(wx,gy+2,wz);lavaGroup.add(li)}
+  }
+ buildVillages();
+}
+// ---- VILAS: casas, praça com tocha e curral da fazenda ----
+const villageMats={plank:new THREE.MeshStandardMaterial({color:0xc99a5b,roughness:0.9}),brick:new THREE.MeshStandardMaterial({color:0xa84a3c,roughness:0.95}),wood:new THREE.MeshStandardMaterial({color:0x8a5a2e,roughness:1}),glass:new THREE.MeshStandardMaterial({color:0xbfe9ff,transparent:true,opacity:0.55,roughness:0.2}),torch:new THREE.MeshStandardMaterial({color:0x5b3a1a,emissive:0xffb300,emissiveIntensity:1.4}),hay:new THREE.MeshStandardMaterial({color:0xe3c565,roughness:1})};
+function vBox(w,h,d,mat,wx,gy,wz,type){
+ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
+ m.position.set(wx,gy+h/2,wz);m.castShadow=true;m.receiveShadow=true;
+ villageGroup.add(m);placed.push({type:type||'plank',mesh:m});return m;
+}
+function buildHouse(wx,gy,wz,wallType){
+ const wall=wallType==='brick'?villageMats.brick:villageMats.plank;
+ // piso
+ vBox(6.4,0.3,5.4,villageMats.wood,wx,gy,wz,'plank');
+ // parede do fundo + laterais + frente com porta
+ vBox(6.4,3,0.4,wall,wx,gy+0.3,wz-2.5,wallType);
+ vBox(0.4,3,5.4,wall,wx-3,gy+0.3,wz,wallType);
+ vBox(0.4,3,5.4,wall,wx+3,gy+0.3,wz,wallType);
+ vBox(2.2,3,0.4,wall,wx-2,gy+0.3,wz+2.5,wallType);
+ vBox(2.2,3,0.4,wall,wx+2,gy+0.3,wz+2.5,wallType);
+ vBox(6.4,0.6,0.4,wall,wx,gy+2.7,wz+2.5,wallType); // verga da porta
+ // janelas de vidro
+ vBox(0.2,1,1.2,villageMats.glass,wx-3,gy+1.4,wz,'glass');
+ vBox(0.2,1,1.2,villageMats.glass,wx+3,gy+1.4,wz,'glass');
+ // telhado de pirâmide
+ const roof=new THREE.Mesh(new THREE.ConeGeometry(5,2.4,4),villageMats.wood);
+ roof.position.set(wx,gy+0.3+3+1.2,wz);roof.rotation.y=Math.PI/4;roof.castShadow=true;
+ villageGroup.add(roof);placed.push({type:'wood',mesh:roof});
+ // tocha na porta (brilha de verdade à noite via torches[])
+ const tm=new THREE.Mesh(new THREE.BoxGeometry(0.3,0.9,0.3),villageMats.torch);
+ tm.position.set(wx+1.4,gy+2,wz+2.9);villageGroup.add(tm);placed.push({type:'torch',mesh:tm});
+}
+function buildPen(wx,gy,wz){
+ // curral 9x9: mourões + feno
+ for(let k=-4;k<=4;k+=2){
+  vBox(0.35,1.2,0.35,villageMats.wood,wx+k,gy,wz-4,'wood');
+  vBox(0.35,1.2,0.35,villageMats.wood,wx+k,gy,wz+4,'wood');
+  vBox(0.35,1.2,0.35,villageMats.wood,wx-4,gy,wz+k,'wood');
+  vBox(0.35,1.2,0.35,villageMats.wood,wx+4,gy,wz+k,'wood');
  }
+ vBox(2,0.8,2,villageMats.hay,wx+2,gy,wz+2,'dirt');
+}
+function buildVillages(){
+ villages.forEach((v,vi)=>{
+  const vwx=(v.x-WS/2)*BS, vwz=(v.z-WS/2)*BS;
+  const gy=groundYAt(vwx,vwz);
+  // praça: poste + tocha com luz de verdade
+  vBox(0.4,3,0.4,villageMats.wood,vwx,gy,vwz,'wood');
+  const tm=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.7,0.5),villageMats.torch);
+  tm.position.set(vwx,gy+3.2,vwz);villageGroup.add(tm);placed.push({type:'torch',mesh:tm});
+  const li=new THREE.PointLight(0xffb84d,30,22,1.8);li.position.set(vwx,gy+4,vwz);scene.add(li);torches.push({mesh:tm,light:li});
+  // 3 casas em volta da praça
+  const offs=[[-9,-6],[9,-6],[0,10]];
+  offs.forEach(([ox,oz],hi)=>{
+   const hx=vwx+ox,hz=vwz+oz;
+   buildHouse(hx,groundYAt(hx,hz),hz,(hi+vi)%2?'brick':'plank');
+  });
+  // curral da fazenda com vacas, ovelhas e porcos
+  const penx=vwx+11,penz=vwz+8;
+  buildPen(penx,groundYAt(penx,penz),penz);
+  addAnimal('vaca',penx-2,penz-1);addAnimal('vaca',penx+2,penz+1);
+  addAnimal('ovelha',penx-1,penz+2);addAnimal('ovelha',penx+2,penz-2);
+  addAnimal('porco',penx,penz);
+  // cachorro e gato da vila
+  addAnimal('cachorro',vwx-4,vwz+4);addAnimal('gato',vwx+5,vwz-3);
+ });
 }
 // ============ JOGADOR FPS ============
 const yawObj=new THREE.Object3D(), pitchObj=new THREE.Object3D();
@@ -533,7 +626,7 @@ document.getElementById('btnLoad').onclick=()=>{const s=localStorage.getItem('mc
 document.getElementById('btnCallPets').onclick=callPets;
 document.getElementById('btnHealPets').onclick=healPets;
 document.getElementById('btnNew').onclick=()=>{newWorld();msg('🌱 Novo mundo 3D gerado!')};
-document.getElementById('btnRain').onclick=()=>{for(let i=0;i<16;i++)spawnRandom(true);msg('🌧️ Chuva de cachorros e gatos!! 🎉')};
+document.getElementById('btnRain').onclick=()=>{for(let i=0;i<16;i++)spawnRandom(true);msg('🌧️ Chuva de bichinhos!! 🎉')};
 document.getElementById('playBtn').onclick=()=>{renderer.domElement.requestPointerLock();document.getElementById('lock').style.display='none'};
 renderer.domElement.addEventListener('click',()=>{if(document.pointerLockElement!==renderer.domElement)renderer.domElement.requestPointerLock()});
 document.addEventListener('pointerlockchange',()=>{if(document.pointerLockElement!==renderer.domElement){document.getElementById('lock').style.display='flex'}});
@@ -548,12 +641,13 @@ renderer.domElement.addEventListener('touchstart',e=>{touchLook=e.touches[0]},{p
 renderer.domElement.addEventListener('touchmove',e=>{if(!touchLook)return;const t=e.touches[0];yaw-=(t.clientX-touchLook.clientX)*0.005;pitch-=(t.clientY-touchLook.clientY)*0.005;pitch=Math.max(-1.55,Math.min(1.55,pitch));yawObj.rotation.y=yaw;pitchObj.rotation.x=pitch;touchLook=t},{passive:true});
 // ============ NOVO MUNDO ============
 function newWorld(){
- volcano=genData();buildTerrain();buildDeco();
  animals.forEach(a=>scene.remove(a.group));animals=[];
- placed.forEach(p=>scene.remove(p.mesh));placed=[];
+ placed.forEach(p=>{if(p.mesh.parent)p.mesh.parent.remove(p.mesh)});placed=[];
  torches.forEach(t=>scene.remove(t.light));torches=[];
- for(let i=0;i<55;i++)spawnRandom(false);
- addAnimal('cachorro',8,8);addAnimal('gato',-14,-10);
+ volcano=genData();buildTerrain();buildDeco();
+ for(let i=0;i<80;i++)spawnRandom(false);
+ addAnimal('cachorro',8,8);addAnimal('gato',6,10);
+ addAnimal('vaca',-6,8);addAnimal('ovelha',10,-6);addAnimal('porco',-8,-4);
  yawObj.position.set(4,groundYAt(4,6)+2.2,6);
 }
 // ============ LOOP ============
@@ -623,7 +717,7 @@ function updateAnimals(dt,now){
   // nome do pet sempre visível
   if(a.pet&&a.group.userData.label){a.group.userData.label.material.opacity=1}
  });
- if(animals.length<50&&Math.random()<0.02)spawnRandom();
+ if(animals.length<90&&Math.random()<0.02)spawnRandom();
 }
 function updateSky(dt,now){
  time+=dt*0.25;if(time>=24){time=0;day++}
@@ -649,7 +743,7 @@ function updateSky(dt,now){
  stars.material.opacity=isNight?0.9:0;
  waterMat.opacity=0.65+Math.sin(now/900)*0.07;
  waterMesh.position.y=WATER_Y+Math.sin(now/1200)*0.08;
- clouds.forEach((c,i)=>{c.position.x+=dt*(1+i*0.15);if(c.position.x>140)c.position.x=-140});
+ clouds.forEach((c,i)=>{c.position.x+=dt*(1+i*0.15);if(c.position.x>170)c.position.x=-170});
  // tochas mais fortes à noite
  torches.forEach(t=>t.light.intensity=isNight?30:10);
  // partículas
